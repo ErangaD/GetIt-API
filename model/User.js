@@ -5,14 +5,19 @@ mongoose.createConnection('mongodb://localhost/getIt_rest');
 var db = mongoose.connection;
 
 var UserSchema= mongoose.Schema({
-    username:{
-        type:String
+    userName:{
+        type:String,
+        unique:true,
+        dropDups: true
+
     },
     password:{
         type:String
     },
     email:{
-        type:String
+        type:String,
+        unique:true,
+        dropDups: true
     },
     name:{
         type:String
@@ -31,10 +36,13 @@ var UserSchema= mongoose.Schema({
         ruralAddress:{type:String},
         cityName:{type:String}
     },
-    saleTypes:[String]
+    saleTypes:[String],
+    time : {
+        type : Date,
+        default: Date.now
+    }
 });
 
-UserSchema.index({username:1,email:1},{unique:true});
 
 var User = module.exports=mongoose.model('User',UserSchema);
 
@@ -42,7 +50,6 @@ module.exports.createUser = function (newUser,callback) {
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(newUser.password, salt, function(err, hash) {
             newUser.password=hash;
-            console.log(hash);
             newUser.save(callback);
         });
     });

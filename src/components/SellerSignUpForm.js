@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
 import axios from 'axios';
 import classNames from 'classnames';
 var validator = require('validator');
 var isEmpty = require('lodash.isempty');
-class BuyerSignUpForm extends React.Component{
+
+class SellerSignUpForm extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -14,9 +15,13 @@ class BuyerSignUpForm extends React.Component{
             password:'',
             password2:'',
             errors:{},
-            isLoading:false
+            isLoading:false,
+            number:'',
+            laneNumber:'',
+            address1:'',
+            address2:''
         }
-        this.handleBuyerRegistration=this.handleBuyerRegistration.bind(this);
+        this.handleSignUp=this.handleSignUp.bind(this);
         this.onChange=this.onChange.bind(this);
     }
     isValid(){
@@ -25,6 +30,11 @@ class BuyerSignUpForm extends React.Component{
             this.setState({errors});
         }
         return isValid;
+    }
+    handleSignUp(e){
+        e.preventDefault();
+        this.setState({errors:{},isLoading:true});
+
     }
     validateInput(data){
         var errors = {};
@@ -57,59 +67,32 @@ class BuyerSignUpForm extends React.Component{
             isValid:isEmpty(errors)
         })
     }
-    handleBuyerRegistration(e){
-        e.preventDefault();
-        this.setState({errors:{},isLoading:true});
-        axios.post('http://localhost:3001/api/buyerRegistration',
-                {user:this.state})
-                .then((response)=>{
-                    console.log(response);
-                    //this.context.router.push('/');
-                }).catch(
-            (errors)=> {
-                const {status} = errors.response;
-                if(status===500){
-                    this.setState(
-                        {
-                            errors:{email:"This email has been used previously"} , isLoading:false
-                        })
-                }else if(status===400){
-                    this.setState(
-                        {
-                            errors:errors.response.data , isLoading:false
-                        })
-                }
-            }
-        );
-    }
     onChange(e){
         this.setState({[e.target.name]:e.target.value});
     }
     render(){
         const {errors} = this.state;
         return(
-            <form id="signupform" className="form-horizontal" role="form" onSubmit={this.handleBuyerRegistration}>
+            <form id="signupform" className="form-horizontal" role="form" onSubmit={this.handleSignUp}>
                 <div id="signupalert" style={{display: 'none'}} className="alert alert-danger">
                     <p>Error:</p>
                     <span />
                 </div>
-                <div className={classNames("form-group", {'has-error':errors.email})}>
+                <div className={classNames("form-group",{'has-errors':errors.email})}>
                     <label htmlFor="email" className="col-md-3 control-label">Email</label>
                     <div className="col-md-9">
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="email"
-                            placeholder="Email Address"
-                            value={this.state.email}
-                            onChange={this.onChange}
+                        <input type="text"
+                               className="form-control"
+                               name="email"
+                               placeholder="Email Address"
+                               value={this.state.email}
+                               onChange={this.onChange}
                         />
                         {errors.email && <span className="help-block">{errors.email}</span>}
                     </div>
-
                 </div>
-                <div className={classNames("form-group", {'has-error':errors.name})}>
-                    <label htmlFor="name" className="col-md-3 control-label">Name</label>
+                <div className="form-group">
+                    <label htmlFor="firstname" className="col-md-3 control-label">Name</label>
                     <div className="col-md-9">
                         <input type="text"
                                className="form-control"
@@ -121,8 +104,8 @@ class BuyerSignUpForm extends React.Component{
                         {errors.name && <span className="help-block">{errors.name}</span>}
                     </div>
                 </div>
-                <div className={classNames("form-group", {'has-error':errors.userName})}>
-                    <label htmlFor="userName" className="col-md-3 control-label">User Name</label>
+                <div className="form-group">
+                    <label htmlFor="userName" className="col-md-3 control-label">userName</label>
                     <div className="col-md-9">
                         <input type="text"
                                className="form-control"
@@ -134,7 +117,7 @@ class BuyerSignUpForm extends React.Component{
                         {errors.userName && <span className="help-block">{errors.userName}</span>}
                     </div>
                 </div>
-                <div className={classNames("form-group", {'has-error':errors.password})}>
+                <div className="form-group">
                     <label htmlFor="password" className="col-md-3 control-label">Password</label>
                     <div className="col-md-9">
                         <input type="password"
@@ -147,7 +130,7 @@ class BuyerSignUpForm extends React.Component{
                         {errors.password && <span className="help-block">{errors.password}</span>}
                     </div>
                 </div>
-                <div className={classNames("form-group", {'has-error':errors.password2})}>
+                <div className="form-group">
                     <label htmlFor="password" className="col-md-3 control-label">Reenter Password</label>
                     <div className="col-md-9">
                         <input type="password"
@@ -174,17 +157,64 @@ class BuyerSignUpForm extends React.Component{
                     </div>
                 </div>
                 <div className="form-group">
+                    <label htmlFor="lastname" className="col-md-3 control-label">Number</label>
+                    <div className="col-md-9">
+                        <input type="text"
+                               className="form-control"
+                               name="number"
+                               placeholder="Place No"
+                               value={this.state.number}
+                               onChange={this.onChange}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="lastname" className="col-md-3 control-label">Lane Number</label>
+                    <div className="col-md-9">
+                        <input type="text"
+                               className="form-control"
+                               name="laneNumber"
+                               placeholder="Lane"
+                               value={this.state.laneNumber}
+                               onChange={this.onChange}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="lastname" className="col-md-3 control-label">Address 1</label>
+                    <div className="col-md-9">
+                        <input type="text"
+                               className="form-control"
+                               name="address1"
+                               placeholder="Address 1"
+                               value={this.state.address1}
+                               onChange={this.onChange}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="lastname" className="col-md-3 control-label">Address 2</label>
+                    <div className="col-md-9">
+                        <input type="text"
+                               className="form-control"
+                               name="address2"
+                               placeholder="Address 2"
+                               value={this.state.address2}
+                               onChange={this.onChange}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
                     {/* Button */}
-                    <div className="col-md-offset-5 col-md-6">
-                        <button disabled={this.state.isLoading} id="btn-signup" type="submit" className="btn btn-info" >Sign Up</button>
-                        {/*<span style={{marginLeft: 8}}>or</span>*/}
+                    <div className="col-md-offset-3 col-md-9">
+                        <button id="btn-signup" type="submit" className="btn btn-info"><i className="icon-hand-right" /> &nbsp; Sign Up</button>
                     </div>
                 </div>
             </form>
-        );
+        )
     }
 }
-BuyerSignUpForm.contextTypes= {
+SellerSignUpForm.contextTypes= {
     router:React.PropTypes.object.isRequired
 }
-export default BuyerSignUpForm;
+export default SellerSignUpForm;

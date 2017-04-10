@@ -1,6 +1,4 @@
 //server.js
-var User = require('./model/User');
-
 //first we import our dependencies...
 var express = require('express');
 var mongoose = require('mongoose');
@@ -33,33 +31,6 @@ app.use(function(req, res, next) {
 });
 /*
 //now we can set the route path & initialize the API
-router.get('/', function(req, res) {
-    res.json({ message: 'API Initialized!'});
-});
-
-//route for buyer registrations
-router.route('/buyerRegistration')
-    .post(function (req,res) {
-        console.log("Me");
-        var name=req.body.name;
-        var email=req.body.email;
-        var password = req.body.password;
-        var userName = req.body.userName;
-        var tpNumber = req.body.tpNumber;
-        var newUser = new User({
-            name: name,
-            email: email,
-            password: password,
-            userName: userName,
-            telNo: tpNumber,
-            userType:false
-        });
-
-        User.createUser(newUser,function (err,user) {
-            if(err) throw err;
-            console.log(user);
-        });
-    });
 
 //Use our router configuration when we call /api
 app.use('/api', router);

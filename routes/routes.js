@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var User = require('../model/User');
 var validator = require('validator');
 var isEmpty = require('lodash.isempty');
 function validateInput(data){
@@ -37,12 +38,59 @@ function validateInput(data){
 router.route('/buyerRegistration')
     .post(function (req,res) {
        const {errors, isValid} = validateInput(req.body.user);
-        console.log(isValid);
         if(isValid){
-            res.status(200).json({success:true});
+            const {userName,name,email,telNo,password} = req.body.user;
+            var newUser = new User({
+                name: name,
+                email: email,
+                password: password,
+                userName: userName,
+                telNo: telNo,
+                userType:false
+            });
+            User.createUser(newUser,function (err,user) {
+                if(err) {
+                    res.status(500).json({error:err});
+                }else{
+                    res.status(200).json({success:true});
+                }
+
+            });
         }else{
             res.status(400).json(errors);
         }
     });
 
+router.route('/authentication')
+    .post(function (req,res) {
+        var data=req.body.user;
+        const {errors, isValid} = validateInput(data);
+        if(isValid){
+            const {userName,name,email,telNo,password} = req.body.user;
+            var newUser = new User({
+                name: name,
+                email: email,
+                password: password,
+                userName: userName,
+                telNo: telNo,
+                userType:true,
+                address:{
+                    number:data.number,
+                    streetAddress:data.laneNumber,
+                    ruralAddress:data.address,
+                    cityName:data.cityName
+                }
+            });
+            User.createUser(newUser,function (err,user) {
+                if(err) {
+                    res.status(500).json({error:err});
+                }else{
+                    res.status(200).json({success:true});
+                }
+            });
+        }
+        else{
+            res.status(400).json(errors);
+        }
+    });
 module.exports = router;
