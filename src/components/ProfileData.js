@@ -1,7 +1,7 @@
 import React from "react";
 
 class ProfileData extends React.Component {
-    render(){
+    render(props){
         return(
                 <section id="featured">
                     <div className="container">
@@ -21,21 +21,26 @@ class ProfileData extends React.Component {
                                                     <tbody>
                                                     <tr>
                                                         <td>Name:</td>
-                                                        <td></td>
+                                                        <td>{this.props.user.name}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Address:</td>
-                                                        <td>06/23/2013</td>
+                                                        <td>UserName:</td>
+                                                        <td>{this.props.user.userName}</td>
                                                     </tr>
+                                                    {this.props.user.address &&
+                                                        <tr>
+                                                            <td>Address:</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    }
                                                     <tr>
                                                     </tr>
                                                     <tr>
                                                         <td>Email</td>
-                                                        <td><a href="mailto:info@support.com">info@support.com</a></td>
+                                                        <td><a href={this.props.user.email}>{this.props.user.email}</a></td>
                                                     </tr>
                                                     <tr><td>Phone Number</td>
-                                                        <td>123-4567-890(Landline)<br /><br />555-4567-890(Mobile)
-                                                        </td>
+                                                        <td>{this.props.user.tpNumber}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
