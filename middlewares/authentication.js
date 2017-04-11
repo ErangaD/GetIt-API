@@ -14,9 +14,9 @@ function authentication(req,res,next) {
                     if(err){
                         res.status(404).json({error:'There is no such user'});
                     }
-                    const {name,email,userName,userType,saleTypes} = user;
+                    const {name,email,userName,userType,saleTypes,telNo} = user;
                     //getting only the required details since password details must not give with the response
-                    var currentUser = {name:name,email:email,userName:userName,userType:userType,saleType:saleTypes};
+                    var currentUser = {name:name,email:email,userName:userName,userType:userType,saleType:saleTypes,tpNumber:telNo};
                     if(userType){
                         //if the user is a seller sending the address details
                         currentUser.address=user.address;

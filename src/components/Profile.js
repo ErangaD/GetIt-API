@@ -4,7 +4,13 @@ import axios from 'axios';
 class Profile extends React.Component {
     constructor(props){
         super(props);
-
+        this.state={
+            email:'',
+            name:'',
+            tpNumber:'',
+            userName:'',
+            saleType:[]
+        }
         axios.get('http://localhost:3001/api/user/profile',
             {
                 params:{
@@ -13,7 +19,12 @@ class Profile extends React.Component {
             }
             )
             .then((response)=>{
-                console.log(response.data);
+                const {email,name,userName,userType,saleTypes,tpNumber} = response.data.user;
+                this.setState({email,name,userName,tpNumber,saleTypes});
+                if(userType){
+                    this.setState({address:response.data.address});
+                }
+                console.log(this.state.email);
             }).catch(
             (errors)=> {
                 localStorage.removeItem('jwtToken');
@@ -24,7 +35,7 @@ class Profile extends React.Component {
         return(
             <div className="container">
                 <div className="container">
-                    <ProfileData/>
+                    <ProfileData user={this.state}/>
                 </div>
                 <section id="content">
                     <div className="container">
