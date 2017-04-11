@@ -56,7 +56,7 @@ module.exports.createUser = function (newUser,callback) {
 }
 module.exports.getUserByUsername=function (username,callback) {
     console.log(username);
-    var query = {username:username};
+    var query = {userName:username};
     User.findOne(query,callback);
 }
 module.exports.getUserById=function (id,callback) {
@@ -65,7 +65,6 @@ module.exports.getUserById=function (id,callback) {
 module.exports.comparePassword=function (password,hash,callback) {
     bcrypt.compare(password,hash,function (err,isMatch) {
         if(err)throw err;
-        console.log(isMatch);
         callback(null,isMatch);
     });
 }

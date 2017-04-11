@@ -3,6 +3,8 @@ var router = express.Router();
 var User = require('../model/User');
 var validator = require('validator');
 var isEmpty = require('lodash.isempty');
+var jwt = require('jsonwebtoken');
+var config = require('../config');
 function validateInput(data){
     var errors = {};
     if(validator.isEmpty(data.email)){
@@ -52,7 +54,11 @@ router.route('/buyerRegistration')
                 if(err) {
                     res.status(500).json({error:err});
                 }else{
-                    res.status(200).json({success:true});
+                    const token = jwt.sign({
+                        id:user._id,
+                        userName:userName
+                    },config.jwtSecret,{ expiresIn: 60 * 60 });
+                    res.json({token});
                 }
 
             });
@@ -60,13 +66,13 @@ router.route('/buyerRegistration')
             res.status(400).json(errors);
         }
     });
-
-router.route('/authentication')
+//have to check for errors on address
+router.route('/sellerRegistration')
     .post(function (req,res) {
         var data=req.body.user;
         const {errors, isValid} = validateInput(data);
         if(isValid){
-            const {userName,name,email,telNo,password} = req.body.user;
+            const {userName,name,email,telNo,password} =data;
             var newUser = new User({
                 name: name,
                 email: email,
@@ -77,15 +83,16 @@ router.route('/authentication')
                 address:{
                     number:data.number,
                     streetAddress:data.laneNumber,
-                    ruralAddress:data.address,
-                    cityName:data.cityName
+                    ruralAddress:data.address1,
+                    cityName:data.address2
                 }
             });
             User.createUser(newUser,function (err,user) {
                 if(err) {
                     res.status(500).json({error:err});
                 }else{
-                    res.status(200).json({success:true});
+                    console.log(user);
+                    res.status(200).json({user:user});
                 }
             });
         }

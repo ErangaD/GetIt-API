@@ -34,7 +34,24 @@ class SellerSignUpForm extends React.Component{
     handleSignUp(e){
         e.preventDefault();
         this.setState({errors:{},isLoading:true});
-
+        axios.post('http://localhost:3001/api/sellerRegistration',
+            {user:this.state})
+            .then((response)=>{
+            console.log(response);
+        }).catch((errors)=>{
+            const {status} = errors.response;
+            if(status===500){
+                this.setState(
+                    {
+                        errors:{email:"This email has been used previously"} , isLoading:false
+                    })
+            }else if(status===400){
+                this.setState(
+                    {
+                        errors:errors.response.data , isLoading:false
+                    })
+            }
+        });
     }
     validateInput(data){
         var errors = {};
@@ -91,7 +108,7 @@ class SellerSignUpForm extends React.Component{
                         {errors.email && <span className="help-block">{errors.email}</span>}
                     </div>
                 </div>
-                <div className="form-group">
+                <div className={classNames("form-group", {'has-error':errors.name})}>
                     <label htmlFor="firstname" className="col-md-3 control-label">Name</label>
                     <div className="col-md-9">
                         <input type="text"
@@ -104,7 +121,7 @@ class SellerSignUpForm extends React.Component{
                         {errors.name && <span className="help-block">{errors.name}</span>}
                     </div>
                 </div>
-                <div className="form-group">
+                <div className={classNames("form-group", {'has-error':errors.userName})}>
                     <label htmlFor="userName" className="col-md-3 control-label">userName</label>
                     <div className="col-md-9">
                         <input type="text"
@@ -117,7 +134,7 @@ class SellerSignUpForm extends React.Component{
                         {errors.userName && <span className="help-block">{errors.userName}</span>}
                     </div>
                 </div>
-                <div className="form-group">
+                <div className={classNames("form-group", {'has-error':errors.password})}>
                     <label htmlFor="password" className="col-md-3 control-label">Password</label>
                     <div className="col-md-9">
                         <input type="password"
@@ -130,7 +147,7 @@ class SellerSignUpForm extends React.Component{
                         {errors.password && <span className="help-block">{errors.password}</span>}
                     </div>
                 </div>
-                <div className="form-group">
+                <div className={classNames("form-group", {'has-error':errors.password2})}>
                     <label htmlFor="password" className="col-md-3 control-label">Reenter Password</label>
                     <div className="col-md-9">
                         <input type="password"
@@ -143,7 +160,7 @@ class SellerSignUpForm extends React.Component{
                         {errors.password2 && <span className="help-block">{errors.password2}</span>}
                     </div>
                 </div>
-                <div className="form-group">
+                <div className={classNames("form-group", {'has-error':errors.tpNumber})}>
                     <label htmlFor="telNo" className="col-md-3 control-label">Telephone No</label>
                     <div className="col-md-9">
                         <input type="tel"
