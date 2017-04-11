@@ -63,11 +63,13 @@ class BuyerSignUpForm extends React.Component{
         axios.post('http://localhost:3001/api/buyerRegistration',
                 {user:this.state})
                 .then((response)=>{
-                    console.log(response);
-                    //this.context.router.push('/');
+                    const token = response.data.token;
+                    localStorage.setItem('jwtToken',token);
+                    this.context.router.push('/profile');
                 }).catch(
             (errors)=> {
                 const {status} = errors.response;
+                console.log(status);
                 if(status===500){
                     this.setState(
                         {
