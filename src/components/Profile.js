@@ -4,28 +4,21 @@ import axios from 'axios';
 class Profile extends React.Component {
     constructor(props){
         super(props);
-        
-        /*axios.get('http://localhost:3001/api/buyerRegistration',
-            {user:this.state})
-            .then((response)=>{
-                this.context.router.push('/profile');
-            }).catch(
-            (errors)=> {
-                const {status} = errors.response;
-                console.log(status);
-                if(status===500){
-                    this.setState(
-                        {
-                            errors:{email:"This email has been used previously"} , isLoading:false
-                        })
-                }else if(status===400){
-                    this.setState(
-                        {
-                            errors:errors.response.data , isLoading:false
-                        })
+
+        axios.get('http://localhost:3001/api/user/profile',
+            {
+                params:{
+                    token:localStorage.jwtToken
                 }
             }
-        );*/
+            )
+            .then((response)=>{
+                console.log(response.data);
+            }).catch(
+            (errors)=> {
+                localStorage.removeItem('jwtToken');
+            }
+        );
     }
     render(){
         return(

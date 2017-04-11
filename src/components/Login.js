@@ -3,6 +3,7 @@ import {Link} from "react-router";
 var validator = require('validator');
 import axios from 'axios';
 var isEmpty = require('lodash.isempty');
+
 class Login extends React.Component {
     constructor(props){
         super(props);
@@ -13,7 +14,7 @@ class Login extends React.Component {
             isLoading:false
         };
         this.onChange=this.onChange.bind(this);
-        this.onSubmit=this.onSubmit.bind(this);
+        this.onLogin=this.onLogin.bind(this);
     }
     isValid(){
         const {errors, isValid} =this.validateInput(this.state);
@@ -38,31 +39,31 @@ class Login extends React.Component {
     onChange(e){
         this.setState({[e.target.name]:e.target.value});
     }
-    onSubmit(e){
+    onLogin(e){
         e.preventDefault();
         this.setState({errors:{},isLoading:true});
-        axios.post('http://localhost:3001/api/user/authentication',
+        axios.post('http://localhost:3001/api/authentication',
             {user:this.state})
             .then((response)=>{
                 const token = response.data.token;
                 localStorage.setItem('jwtToken',token);
             }).catch((errors)=>{
-            const {status} = errors.response;
-            if(status===500){
-                this.setState(
-                    {
-                        errors:{userName:"This email has been used previously"} , isLoading:false
-                    })
-            }else if(status===400){
-                this.setState(
-                    {
-                        errors:errors.response.data , isLoading:false
-                    })
-            }
+                const {status} = errors.response;
+                if(status===500){
+                    this.setState(
+                        {
+                            errors:{userName:"This email has been used previously"} , isLoading:false
+                        })
+                }else if(status===400){
+                    this.setState(
+                        {
+                            errors:errors.response.data , isLoading:false
+                        })
+                }
         });
     }
     render() {
-        const {errors,userName,password,isLoading}=this.state;
+        const {userName,password,isLoading}=this.state;
         return (
             <div className="container">
                 <div id="loginbox" style={{marginTop: 50}}
@@ -75,7 +76,7 @@ class Login extends React.Component {
                         </div>
                         <div style={{paddingTop: 30}} className="panel-body">
                             <div style={{display: 'none'}} id="login-alert" className="alert alert-danger col-sm-12"/>
-                            <form id="loginform" className="form-horizontal" role="form" onSubmit={this.onSubmit}>
+                            <form id="loginform" className="form-horizontal" role="form" onSubmit={this.onLogin}>
                                 <div style={{marginBottom: 25}} className="input-group">
                                     <span className="input-group-addon"><i className="glyphicon glyphicon-user"/></span>
                                     <input id="login-username"

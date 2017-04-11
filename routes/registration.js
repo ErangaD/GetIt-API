@@ -58,7 +58,7 @@ router.route('/buyerRegistration')
                         id:user._id,
                         userName:userName
                     },config.jwtSecret,{ expiresIn: 60 * 60 });
-                    res.json({token});
+                    res.status(200).json({token});
                 }
 
             });
