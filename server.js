@@ -1,5 +1,6 @@
 //server.js
 //first we import our dependencies...
+console.log("begining of the server");
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -7,7 +8,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var registration= require('./routes/registration');
 var authentication = require('./routes/authentication');
-var posts = require('./routes/posts');
+var profile = require('./routes/userProfile');
 //var registration = express.Router();
 
 //set our port to either a predetermined port number if you have set it up, or 3001
@@ -37,9 +38,9 @@ app.use(function(req, res, next) {
 //Use our registration configuration when we call /api
 app.use('/api', registration);
 */
+app.use('/api/authentication',authentication);
+app.use('/api/user',profile);
 app.use('/api', registration);
-app.use('/api/user',authentication);
-app.use('/api/user/posts',posts);
 //starts the server and listens for requests
 app.listen(port, function() {
     console.log(`api running  on port ${port}`);

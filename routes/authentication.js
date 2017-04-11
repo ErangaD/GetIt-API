@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../model/User');
+    var User = require('../model/User');
 var validator = require('validator');
 var isEmpty = require('lodash.isempty');
 var jwt = require('jsonwebtoken');
@@ -18,7 +18,7 @@ function validateInput(data) {
             isValid:isEmpty(errors)
         })
  }
-router.route('/authentication')
+router.route('/')
     .post(function (req,res) {
         const {errors,isValid}=validateInput(req.body.user);
         if(isValid){
@@ -36,7 +36,7 @@ router.route('/authentication')
                                 const token = jwt.sign({
                                     id:user._id,
                                     userName:userName
-                                },config.jwtSecret,{ expiresIn: 60 * 60 });
+                                },config.jwtSecret,{ expiresIn: '3h'});
                                 res.json({token});
                             }else{
                                 //there is no match have to inform invalid credentials
