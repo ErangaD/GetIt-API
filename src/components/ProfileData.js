@@ -1,7 +1,7 @@
 import React from "react";
 
 class ProfileData extends React.Component {
-    render(props){
+    render(){
         return(
                 <section id="featured">
                     <div className="container">
@@ -30,18 +30,23 @@ class ProfileData extends React.Component {
                                                     {this.props.user.address &&
                                                         <tr>
                                                             <td>Address:</td>
-                                                            <td></td>
+                                                            <td>{this.props.user.address.number}<br/>
+                                                                {this.props.user.address.streetAddress}<br/>
+                                                                {this.props.user.address.ruralAddress}<br/>
+                                                                {this.props.user.address.cityName}
+                                                            </td>
                                                         </tr>
                                                     }
-                                                    <tr>
-                                                    </tr>
                                                     <tr>
                                                         <td>Email</td>
                                                         <td><a href={this.props.user.email}>{this.props.user.email}</a></td>
                                                     </tr>
-                                                    <tr><td>Phone Number</td>
-                                                        <td>{this.props.user.tpNumber}</td>
-                                                    </tr>
+                                                    {this.props.user.telNo &&
+                                                        <tr>
+                                                            <td>Phone Number</td>
+                                                            <td>{this.props.user.telNo}
+                                                            </td>
+                                                        </tr>}
                                                     </tbody>
                                                 </table>
                                             </div>

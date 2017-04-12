@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import {Link} from "react-router";
 var validator = require('validator');
 import axios from 'axios';
@@ -47,12 +48,13 @@ class Login extends React.Component {
             .then((response)=>{
                 const token = response.data.token;
                 localStorage.setItem('jwtToken',token);
+                this.context.router.push('/profile');
             }).catch((errors)=>{
                 const {status} = errors.response;
                 if(status===500){
                     this.setState(
                         {
-                            errors:{userName:"This email has been used previously"} , isLoading:false
+                            errors:{userName:"This user has been used previously"} , isLoading:false
                         })
                 }else if(status===400){
                     this.setState(
@@ -68,6 +70,9 @@ class Login extends React.Component {
             <div className="container">
                 <div id="loginbox" style={{marginTop: 50}}
                      className="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div className={classNames("container", {'has-error':this.props.location.query.err})}>
+                        {this.props.location.query.err && <h3><span className="help-block">{this.props.location.query.err}</span></h3>}
+                    </div>
                     <div className="panel panel-info">
                         <div className="panel-heading">
                             <div className="panel-title">Sign In</div>
@@ -136,5 +141,8 @@ class Login extends React.Component {
             </div>
         );
     }
+}
+Login.contextTypes= {
+    router:React.PropTypes.object.isRequired
 }
 export default Login;
