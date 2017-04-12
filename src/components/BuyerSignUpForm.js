@@ -9,7 +9,7 @@ class BuyerSignUpForm extends React.Component{
         this.state={
             email:'',
             name:'',
-            tpNumber:'',
+            telNo:'',
             userName:'',
             password:'',
             password2:'',
@@ -46,8 +46,8 @@ class BuyerSignUpForm extends React.Component{
         if(validator.isEmpty(data.userName)){
             errors.userName="User name is required";
         }
-        if(!validator.isEmpty(data.tpNumber)){
-            errors.tpNumber="Telephone number is required";
+        if(!validator.isEmpty(data.telNo)){
+            errors.telNo="Telephone number is required";
         }
         if(!validator.equals(data.password,data.password2)){
             errors.password2="Password must match";
@@ -55,7 +55,7 @@ class BuyerSignUpForm extends React.Component{
         return({
             errors,
             isValid:isEmpty(errors)
-        })
+        });
     }
     handleBuyerRegistration(e){
         e.preventDefault();
@@ -69,7 +69,6 @@ class BuyerSignUpForm extends React.Component{
                 }).catch(
             (errors)=> {
                 const {status} = errors.response;
-                console.log(status);
                 if(status===500){
                     this.setState(
                         {
@@ -167,12 +166,12 @@ class BuyerSignUpForm extends React.Component{
                     <div className="col-md-9">
                         <input type="tel"
                                className="form-control"
-                               name="tpNumber"
+                               name="telNo"
                                placeholder="0000000000"
-                               value={this.state.tpNumber}
+                               value={this.state.telNo}
                                onChange={this.onChange}
                         />
-                        {errors.tpNumber && <span className="help-block">{errors.tpNumber}</span>}
+                        {errors.telNo && <span className="help-block">{errors.telNo}</span>}
                     </div>
                 </div>
                 <div className="form-group">

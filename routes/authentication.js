@@ -40,12 +40,12 @@ router.route('/')
                                 res.json({token});
                             }else{
                                 //there is no match have to inform invalid credentials
-                                res.status(500).json({error:err});
+                                res.status(500).json({error:'No match'});
                             }
                         });
                     }
                     else{
-                        res.status(500).json({error:err});
+                        res.status(500).json({error:"No user"});
                     }
                 }
             })

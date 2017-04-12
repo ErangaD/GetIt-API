@@ -73,8 +73,8 @@ class SellerSignUpForm extends React.Component{
         if(validator.isEmpty(data.userName)){
             errors.userName="User name is required";
         }
-        if(!validator.isEmpty(data.tpNumber)){
-            errors.tpNumber="Telephone number is required";
+        if(!validator.isEmpty(data.telNo)){
+            errors.telNo="Telephone number is required";
         }
         if(!validator.equals(data.password,data.password2)){
             errors.password2="Password must match";
@@ -160,17 +160,17 @@ class SellerSignUpForm extends React.Component{
                         {errors.password2 && <span className="help-block">{errors.password2}</span>}
                     </div>
                 </div>
-                <div className={classNames("form-group", {'has-error':errors.tpNumber})}>
+                <div className={classNames("form-group", {'has-error':errors.telNo})}>
                     <label htmlFor="telNo" className="col-md-3 control-label">Telephone No</label>
                     <div className="col-md-9">
                         <input type="tel"
                                className="form-control"
                                name="tpNumber"
                                placeholder="0000000000"
-                               value={this.state.tpNumber}
+                               value={this.state.telNo}
                                onChange={this.onChange}
                         />
-                        {errors.tpNumber && <span className="help-block">{errors.tpNumber}</span>}
+                        {errors.telNo && <span className="help-block">{errors.telNo}</span>}
                     </div>
                 </div>
                 <div className="form-group">

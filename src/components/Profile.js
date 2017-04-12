@@ -7,7 +7,7 @@ class Profile extends React.Component {
         this.state={
             email:'',
             name:'',
-            tpNumber:'',
+            telNo:'',
             userName:'',
             saleType:[]
         }
@@ -19,17 +19,24 @@ class Profile extends React.Component {
             }
             )
             .then((response)=>{
-                const {email,name,userName,userType,saleTypes,tpNumber} = response.data.user;
-                this.setState({email,name,userName,tpNumber,saleTypes});
+                const {email,name,userName,userType,saleTypes,telNo} = response.data.user;
+                this.setState({email,name,userName,telNo,saleTypes});
                 if(userType){
                     this.setState({address:response.data.address});
                 }
-                console.log(this.state.email);
             }).catch(
             (errors)=> {
                 localStorage.removeItem('jwtToken');
+                this.context.router.push({
+                    pathname:`/login`,
+                    query:{err:'You have to log in'}
+                });
             }
         );
+        this.onPost=this.onPost.bind(this);
+    }
+    onPost(){
+        console.log("ON post");
     }
     render(){
         return(
@@ -46,7 +53,7 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Posts</h4>
-                                                <a href="/posts">
+                                                <a href="#" onClick={this.onPost}>
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-align-justify" />
                                                     </div>
@@ -99,13 +106,13 @@ class Profile extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        {/* end divider */}
-                        {/* Portfolio Projects */}
                     </div>
                 </section>
             </div>
         )
     }
 }
-
+Profile.contextTypes= {
+    router:React.PropTypes.object.isRequired
+}
 export default Profile;

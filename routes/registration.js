@@ -25,8 +25,8 @@ function validateInput(data){
     if(validator.isEmpty(data.userName)){
         errors.userName="User name is required";
     }
-    if(validator.isEmpty(data.tpNumber)){
-        errors.tpNumber="Telephone number is required";
+    if(validator.isEmpty(data.telNo)){
+        errors.telNo="Telephone number is required";
     }
     if(!validator.equals(data.password,data.password2)){
         errors.password2="Password must match";
