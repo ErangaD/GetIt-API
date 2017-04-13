@@ -16,3 +16,10 @@ var replySchema = new mongoose.Schema({
         type:String
     }
 });
+var Reply = module.exports=mongoose.model('Reply',replySchema);
+module.exports.getReplies=function (commentId,callback) {
+    Reply.find({commentId:commentId},callback);
+}
+module.exports.addReply=function (reply,callback) {
+    reply.save(callback);
+}
