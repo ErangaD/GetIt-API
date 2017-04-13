@@ -1,14 +1,25 @@
 import React from 'react';
+import axios from 'axios';
+import ReplyList from './ReplyList';
 class Post extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            id:this.props.comment._id
+            id:this.props.comment._id,
+            replies:[]
         }
         this.onClicked=this.onClicked.bind(this);
     }
     onClicked(){
-        console.log(this.state);
+        axios.get('http://localhost:3001/api/buyerRegistration',
+            {user:this.state})
+            .then((response)=>{
+                
+            }).catch(
+            (errors)=> {
+
+            }
+        );
     }
     render(){
         return(
@@ -37,20 +48,8 @@ class Post extends React.Component{
                         </section>
                         <section className="post-footer">
                             <div className="post-footer-comment-wrapper">
-                                <div className="comment-form">
-                                </div>
                                 <div className="comment">
-                                    <div className="media">
-                                        <div className="media-left">
-                                            <a href="#">
-                                                <img className="media-object photo-profile" src="http://0.gravatar.com/avatar/38d618563e55e6082adf4c8f8c13f3e4?s=40&d=mm&r=g" width={32} height={32} alt="..." />
-                                            </a>
-                                        </div>
-                                        <div className="media-body">
-                                            <a href="#" className="anchor-username"><h4 className="media-heading">Media heading</h4></a>
-                                            <a href="#" className="anchor-time">51 mins</a>
-                                        </div>
-                                    </div>
+                                    <ReplyList reply={this.state.replies}/>
                                 </div>
                             </div>
                         </section>
