@@ -3,6 +3,7 @@ var router = express.Router();
 var authenticate = require('../middlewares/authentication');
 var validator = require('validator');
 var Comment = require('../model/Comment');
+var Reply = require('../model/Reply');
 var isEmpty = require('lodash.isempty');
 function validateInput(data) {
     var errors = {};
@@ -18,6 +19,53 @@ function validateInput(data) {
     }
     );
 }
+router.route('/reply')
+    .post(authenticate,function (req,res) {
+        var data = req.body.data;
+        const {price,remarks,negotiable,id} = data;
+        var user = req.currentUser;
+        var newReply = null;
+        if(user.userType){
+            newReply = new Reply({
+                commentId:id,
+                senderId:user.id,
+                price:price,
+                negotiable:negotiable,
+                remarks:remarks
+            });
+        }else{
+            newReply=new Reply({
+                commentId:id,
+                senderId:user.id,
+                price:null,
+                negotiable:null,
+                remarks:remarks
+            });
+        }
+        Reply.addReply(newReply,function (err,reply) {
+            if(err){
+                //return an appropriate response
+            }else{
+                console.log(reply);
+                //return a success message
+            }
+        })
+    });
+router.route('/reply')
+    .get(authenticate,function (req,res) {
+        var commentId = req.query.commentId;
+        if(commentId){
+            Reply.getReplies(commentId,function (err,replies) {
+                if(err){
+
+                }
+                else{
+                    res.json({replies:replies,userType:req.currentUser.userType});
+                }
+            });
+        }
+
+    });
 router.route('/profile')
     .get(authenticate,function (req,res) {
         res.status(200).json({user:req.currentUser});
@@ -48,7 +96,7 @@ router.route('/posts')
                 if(err){
                     res.status(500).json({error:'Process was unsuccessful'});
                 }else{
-                    console.log(comment);
+                    res.json({success:true});
                 }
 
             });

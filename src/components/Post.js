@@ -1,27 +1,38 @@
 import React from 'react';
 import axios from 'axios';
 import ReplyList from './ReplyList';
+import Comment from './Comment'
 class Post extends React.Component{
     constructor(props){
         super(props);
         this.state={
             id:this.props.comment._id,
-            replies:[]
+            replies:[],
+            userType:false
         }
         this.onClicked=this.onClicked.bind(this);
     }
     onClicked(){
-        axios.get('http://localhost:3001/api/buyerRegistration',
-            {user:this.state})
+        axios.get('http://localhost:3001/api/user/reply',
+            {
+                params:{
+                    token:localStorage.jwtToken,
+                    commentId:this.state.id
+                }
+            })
             .then((response)=>{
-                
+                this.setState({
+                    replies:response.data.replies,
+                    userType:response.data.userType
+                });
             }).catch(
             (errors)=> {
-
+                //have to inform user try again
             }
         );
     }
     render(){
+        console.log(this.props.comment);
         return(
         <div className="container">
             <div className="col-lg-4">
@@ -53,11 +64,13 @@ class Post extends React.Component{
                                 </div>
                             </div>
                         </section>
+                        <section className="post-body">
+                            <Comment userType={this.state.userType} id={this.state.id}/>
+                        </section>
                     </div>
                 </div>
             </div>
         </div>
-
         )
     }
 }

@@ -60,9 +60,9 @@ class PostPage extends React.Component{
                 }
             }
         );
-        console.log();
         let comments = this.state.data;
-        data._id = Date.now();
+        data._id=Date.now();
+        data.time = new Date().toLocaleDateString();
         let newComments = comments.concat([data]);
         this.setState({data:newComments});
     }
@@ -70,9 +70,8 @@ class PostPage extends React.Component{
         this.setState({[e.target.name]:e.target.value});
     }
     handleOptionChange(e){
-        console.log(e.target.value);
         this.setState({
-            selectedOption:e.target.value
+            saleType:e.target.value
         });
     }
     render(){
@@ -149,13 +148,6 @@ class PostPage extends React.Component{
                                         <button type="submit" className="btn btn-default">Submit</button>
                                     </form>
                                 </div>
-                                <section className="post-footer">
-                                    <div className="post-footer-comment-wrapper">
-                                        <div className="comment">
-
-                                        </div>
-                                    </div>
-                                </section>
                             </div>
                         </div>
                     </div>
