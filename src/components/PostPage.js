@@ -21,7 +21,11 @@ class PostPage extends React.Component{
                 this.setState({data:response.data})
             }).catch(
             (errors)=> {
-
+                console.log(errors);
+                this.context.router.push({
+                    pathname:`/login`,
+                    query:{err:'You have to log in'}
+                });
             }
         );
         this.onSubmit=this.onSubmit.bind(this);
@@ -145,6 +149,13 @@ class PostPage extends React.Component{
                                         <button type="submit" className="btn btn-default">Submit</button>
                                     </form>
                                 </div>
+                                <section className="post-footer">
+                                    <div className="post-footer-comment-wrapper">
+                                        <div className="comment">
+
+                                        </div>
+                                    </div>
+                                </section>
                             </div>
                         </div>
                     </div>
@@ -157,5 +168,8 @@ class PostPage extends React.Component{
             </section>
         )
     }
+}
+PostPage.contextTypes= {
+    router:React.PropTypes.object.isRequired
 }
 export default PostPage;
