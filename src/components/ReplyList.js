@@ -1,10 +1,10 @@
 import React from 'react';
-import Post from './Post'
-class PostsList extends React.Component {
+import Reply from './Reply'
+class ReplyList extends React.Component {
     render() {
-        let postsList = this.props.data.map(comment=>{
+        let replYList = this.props.data.map(comment=>{
             return(
-                <Post
+                <Reply
                     comment={comment}
                     key={comment._id}
                 />
@@ -17,4 +17,4 @@ class PostsList extends React.Component {
         );
     }
 }
-export default PostsList;
+export default ReplyList;

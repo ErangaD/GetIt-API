@@ -12,6 +12,10 @@ var CommentSchema = mongoose.Schema({
     },
     remarks:{
         type:String
+    },
+    time : {
+        type : Date,
+        default: Date.now
     }
 });
 var Comment = module.exports=mongoose.model('Comment',CommentSchema);

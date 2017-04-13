@@ -7,7 +7,7 @@ class PostPage extends React.Component{
         this.state={
             price:'',
             remarks:'',
-            selectedOption:'vehicle',
+            saleType:'vehicle',
             data:[]
         }
         axios.get('http://localhost:3001/api/user/posts',
@@ -33,7 +33,7 @@ class PostPage extends React.Component{
         var data = {
             price:this.state.price,
             remarks:this.state.remarks,
-            selectedOption:this.state.selectedOption
+            saleType:this.state.saleType
         }
         axios.post('http://localhost:3001/api/user/posts',
             {data:data,
@@ -56,6 +56,11 @@ class PostPage extends React.Component{
                 }
             }
         );
+        console.log();
+        let comments = this.state.data;
+        data._id = Date.now();
+        let newComments = comments.concat([data]);
+        this.setState({data:newComments});
     }
     onChange(e){
         this.setState({[e.target.name]:e.target.value});
@@ -95,7 +100,7 @@ class PostPage extends React.Component{
                                                     <input type="radio"
                                                            name="radio"
                                                            value='electronic'
-                                                           checked={this.state.selectedOption==='electronic'}
+                                                           checked={this.state.saleType==='electronic'}
                                                            onChange={this.handleOptionChange}
                                                     />
                                                     Electronic
@@ -106,7 +111,7 @@ class PostPage extends React.Component{
                                                     <input type="radio"
                                                            name="radio"
                                                            value='vehicle'
-                                                           checked={this.state.selectedOption==='vehicle'}
+                                                           checked={this.state.saleType==='vehicle'}
                                                            onChange={this.handleOptionChange}
                                                     />
                                                     Vehicle
@@ -117,7 +122,7 @@ class PostPage extends React.Component{
                                                     <input type="radio"
                                                            name="radio"
                                                            value="property"
-                                                           checked={this.state.selectedOption==='property'}
+                                                           checked={this.state.saleType==='property'}
                                                            onChange={this.handleOptionChange}
                                                     />
                                                     Property
