@@ -62,6 +62,7 @@ class PostPage extends React.Component{
         );
         let comments = this.state.data;
         data._id=Date.now();
+        //have to convert to mongoDate
         data.time = new Date().toLocaleDateString();
         let newComments = comments.concat([data]);
         this.setState({data:newComments});

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import ReplyList from './ReplyList';
+import Reply from './ReplyList';
 import Comment from './Comment'
 class Post extends React.Component{
     constructor(props){
@@ -12,7 +12,8 @@ class Post extends React.Component{
         }
         this.onClicked=this.onClicked.bind(this);
     }
-    onClicked(){
+    onClicked(e){
+        e.preventDefault();
         axios.get('http://localhost:3001/api/user/reply',
             {
                 params:{
@@ -32,7 +33,6 @@ class Post extends React.Component{
         );
     }
     render(){
-        console.log(this.props.comment);
         return(
         <div className="container">
             <div className="col-lg-4">
@@ -57,13 +57,9 @@ class Post extends React.Component{
                                     </div>
                                 </div>
                         </section>
-                        <section className="post-footer">
-                            <div className="post-footer-comment-wrapper">
-                                <div className="comment">
-                                    <ReplyList reply={this.state.replies}/>
-                                </div>
-                            </div>
-                        </section>
+                        <div className="container ">
+                            <Reply reply={this.state.replies}/>
+                        </div>
                         <section className="post-body">
                             <Comment userType={this.state.userType} id={this.state.id}/>
                         </section>
