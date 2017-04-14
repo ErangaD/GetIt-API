@@ -60,6 +60,7 @@ router.route('/reply')
 
                 }
                 else{
+                    console.log(replies);
                     res.json({replies:replies,userType:req.currentUser.userType});
                 }
             });

@@ -15,8 +15,8 @@ class Comment extends React.Component{
         this.handleOptionChange=this.handleOptionChange.bind(this);
     }
     handleSubmit(e){
-        this.setState({isLoading:true});
         e.preventDefault();
+        this.setState({isLoading:true});
         axios.post('http://localhost:3001/api/user/reply',
             {data:this.state,
                 token:localStorage.jwtToken
