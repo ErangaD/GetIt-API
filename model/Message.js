@@ -1,9 +1,9 @@
 var mongoose = require("mongoose");
 var messageSchema = new mongoose.Schema({
-    senderId:{
+    sellerId:{
         type:String
-    }  ,
-    receiverId:{
+    },
+    buyerId:{
         type:String
     },
     message:{
@@ -12,4 +12,11 @@ var messageSchema = new mongoose.Schema({
     time:{
         type:Date
     }
-})
+});
+var Message = module.exports=mongoose.model('Message',messageSchema);
+module.exports.getBuyers=function (id,callback) {
+    Message.find({buyerId:id},callback);
+}
+module.exports.getSellers=function (id,callback) {
+    Message.find({sellerId:id},callback);
+}

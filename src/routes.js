@@ -5,7 +5,7 @@ import Register from './components/Register'
 import Login from './components/Login'
 import Profile from './components/Profile'
 import PostPage from './components/PostPage'
-import Message from './components/ChatArea'
+import Message from './components/ChatPage'
 export default(
     <Route component={Root}>
         <Route path="/" component={Login}/>

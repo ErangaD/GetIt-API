@@ -1,5 +1,13 @@
 import React from 'react';
-class MessageList extends React.Component{
+class ConnectedUsers extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            users:[]
+        }
+        
+    }
+
     render(){
         return(
             <div className="col-lg-6 col-md-6 col-sm-6">
@@ -43,4 +51,4 @@ class MessageList extends React.Component{
         )
     }
 }
-export default MessageList;
+export default ConnectedUsers;

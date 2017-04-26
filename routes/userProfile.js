@@ -4,6 +4,7 @@ var authenticate = require('../middlewares/authentication');
 var validator = require('validator');
 var Comment = require('../model/Comment');
 var Reply = require('../model/Reply');
+var Message = require('../model/Message');
 var isEmpty = require('lodash.isempty');
 function validateInput(data) {
     var errors = {};
@@ -19,6 +20,28 @@ function validateInput(data) {
     }
     );
 }
+router.route('/users')
+    .get(authenticate,function (req,res) {
+        var currentUser=req.currentUser;
+        if(currentUser.userType){
+            Message.getBuyers(req.currentUser,function (err,messages) {
+                if(err){
+
+                }else{
+                    console.log(senders);
+                }
+            });
+        }else{
+            Message.getSellers(req.currentUser,function (err,messages) {
+                if(err){
+
+                }else{
+                    console.log(senders);
+                }
+            });
+        }
+
+    });
 router.route('/reply')
     .post(authenticate,function (req,res) {
         var data = req.body.data;

@@ -6,6 +6,12 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 //and create our instances
 var app = express();
+
+//Socket for Messaging part
+//getting the server instance
+var http = require('http').Server(app);
+require('./routes/socketHandler').listen(http)
+
 var registration= require('./routes/registration');
 var authentication = require('./routes/authentication');
 var profile = require('./routes/userProfile');
@@ -32,6 +38,7 @@ app.use(function(req, res, next) {
     res.setHeader('Cache-Control', 'no-cache');
     next();
 });
+
 /*
 //now we can set the route path & initialize the API
 
@@ -42,7 +49,7 @@ app.use('/api/authentication',authentication);
 app.use('/api/user',profile);
 app.use('/api', registration);
 //starts the server and listens for requests
-app.listen(port, function() {
+http.listen(port, function() {
     console.log(`api running  on port ${port}`);
 });
 module.exports = express;
