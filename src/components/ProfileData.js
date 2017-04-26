@@ -2,6 +2,17 @@ import React from "react";
 
 class ProfileData extends React.Component {
     render(){
+        let telNo;
+        if(this.props.user.telNo) {
+            telNo = <tr>
+                <td>Phone Number</td>
+                <td>{this.props.user.telNo}
+                </td>
+            </tr>
+        }
+        else{
+            telNo=null;
+        }
         return(
                 <section id="featured">
                     <div className="container">
@@ -41,12 +52,7 @@ class ProfileData extends React.Component {
                                                         <td>Email</td>
                                                         <td><a href={this.props.user.email}>{this.props.user.email}</a></td>
                                                     </tr>
-                                                    {this.props.user.telNo &&
-                                                        <tr>
-                                                            <td>Phone Number</td>
-                                                            <td>{this.props.user.telNo}
-                                                            </td>
-                                                        </tr>}
+                                                    {telNo}
                                                     </tbody>
                                                 </table>
                                             </div>

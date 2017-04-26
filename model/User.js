@@ -58,6 +58,10 @@ module.exports.getUserByUsername=function (username,callback) {
     var query = {userName:username};
     User.findOne(query,callback);
 }
+module.exports.checkEmail=function (email,callback) {
+    var query = {email:email};
+    User.findOne(query,callback);
+}
 module.exports.getUserById=function (id,callback) {
     User.findById(id,callback);
 }

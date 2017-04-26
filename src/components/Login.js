@@ -51,16 +51,14 @@ class Login extends React.Component {
                 this.context.router.push('/profile');
             }).catch((errors)=>{
                 const {status} = errors.response;
-                if(status===500){
-                    this.setState(
-                        {
-                            errors:{userName:"This user has been used previously"} , isLoading:false
-                        })
-                }else if(status===400){
-                    this.setState(
-                        {
-                            errors:errors.response.data , isLoading:false
-                        })
+                this.setState({userName:'',password:''});
+                if(status){
+                    if(status===500){
+                        this.setState(
+                            {
+                                errors:{error:"Login error! Login Again"} , isLoading:false
+                            })
+                    }
                 }
         });
     }
@@ -73,11 +71,15 @@ class Login extends React.Component {
                     <div className={classNames("container", {'has-error':this.props.location.query.err})}>
                         {this.props.location.query.err && <h3><span className="help-block">{this.props.location.query.err}</span></h3>}
                     </div>
+                    <div className={classNames("container", {'has-error':this.state.errors.error})}>
+                        {this.state.errors.error && <h3><span className="help-block">{this.state.errors.error}</span></h3>}
+                    </div>
                     <div className="panel panel-info">
                         <div className="panel-heading">
                             <div className="panel-title">Sign In</div>
-                            <div style={{float: 'right', fontSize: '80%', position: 'relative', top: '-10px'}}><a
-                                href="#">Forgot password?</a></div>
+                            {/*<div style={{float: 'right', fontSize: '80%', position: 'relative', top: '-10px'}}><a
+                                href="#">Forgot password?</a></div>*/}
+                            {/* forgot password is to be implemented */}
                         </div>
                         <div style={{paddingTop: 30}} className="panel-body">
                             <div style={{display: 'none'}} id="login-alert" className="alert alert-danger col-sm-12"/>
@@ -126,7 +128,7 @@ class Login extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12 control">
-                                        <div style={{borderTop: '1px solid#888', paddingTop: 15, fontSize: '85%'}}>
+                                        <div style={{borderTop: '1px solid#888', paddingTop: 15, fontSize: '105%'}}>
                                             Don't have an account!
                                             <Link to="/register">
                                                 Sign Up Here
