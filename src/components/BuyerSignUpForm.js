@@ -69,10 +69,11 @@ class BuyerSignUpForm extends React.Component{
                 }).catch(
             (errors)=> {
                 const {status} = errors.response;
+                console.log(errors);
                 if(status===500){
                     this.setState(
                         {
-                            errors:{email:"This email has been used previously"} , isLoading:false
+                            errors:errors.response.data , isLoading:false
                         })
                 }else if(status===400){
                     this.setState(

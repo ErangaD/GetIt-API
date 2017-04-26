@@ -50,17 +50,38 @@ router.route('/buyerRegistration')
                 telNo: telNo,
                 userType:false
             });
-            User.createUser(newUser,function (err,user) {
-                if(err) {
-                    res.status(500).json({error:err});
+            User.getUserByUsername(userName,function (err,user) {
+                if(err){
+                    res.status(500).json({error:'Try again'});
                 }else{
-                    const token = jwt.sign({
-                        id:user._id,
-                        userName:userName
-                    },config.jwtSecret,{ expiresIn: 60 * 60 });
-                    res.status(200).json({token});
+                    if(user){
+                        errors.userName = "User name exists";
+                        res.status(500).json(errors);
+                    }else{
+                        User.checkEmail(email,function (err,user) {
+                            if(err){
+                                res.status(500).json({error:'Try again'});
+                            }else{
+                                if(user){
+                                    errors.email="Email exists";
+                                    res.status(500).json(errors);
+                                }else{
+                                    User.createUser(newUser,function (err,user) {
+                                        if(err) {
+                                            res.status(500).json({error:'Try again'});
+                                        }else{
+                                            const token = jwt.sign({
+                                                id:user._id,
+                                                userName:userName
+                                            },config.jwtSecret,{ expiresIn: 60 * 60 });
+                                            res.status(200).json({token});
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
-
             });
         }else{
             res.status(400).json(errors);

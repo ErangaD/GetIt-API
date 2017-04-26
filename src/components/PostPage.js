@@ -95,7 +95,6 @@ class PostPage extends React.Component{
                                                    value={this.state.price}
                                                    onChange={this.onChange}
                                             />
-                                            <p className="help-block">Lorem ipsum dolor sit amet</p>
                                         </div>
                                         <div className="form-group">
                                             <label className="control-label">Sale Type</label>
@@ -132,7 +131,6 @@ class PostPage extends React.Component{
                                                     Property
                                                 </label>
                                             </div>
-                                            <p className="help-block">Lorem ipsum dolor sit amet</p>
                                         </div>
                                         <div className="form-group">
                                             <label className="control-label" htmlFor="exampleInputEmail1">Remarks</label>
@@ -144,7 +142,6 @@ class PostPage extends React.Component{
                                                       value={this.state.remarks}
                                                       onChange={this.onChange}
                                             />
-                                            <p className="help-block">Lorem ipsum dolor sit amet</p>
                                         </div>
                                         <button type="submit" className="btn btn-default">Submit</button>
                                     </form>

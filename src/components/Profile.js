@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileData from './ProfileData';
 import axios from 'axios';
+import {Link} from "react-router";
 class Profile extends React.Component {
     constructor(props){
         super(props);
@@ -53,11 +54,11 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Posts</h4>
-                                                <a href="#" onClick={this.onPost}>
+                                                <Link to="/posts">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-align-justify" />
                                                     </div>
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="box-bottom">
                                                 <spann><br/></spann>
@@ -69,11 +70,11 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Edit Profile</h4>
-                                                <a href="/user/editProfile">
+                                                <Link to="/posts">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-list-alt" />
                                                     </div>
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="box-bottom">
                                                 <spann><br/></spann>
@@ -84,11 +85,11 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Messages</h4>
-                                                <a href="/user/chat">
+                                                <Link to="/posts">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-user" />
                                                     </div>
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="box-bottom">
                                                 <spann><br/></spann>
