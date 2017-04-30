@@ -5,8 +5,10 @@ class Message extends React.Component{
             return (
                 <div className="chat-box-left">
                     <div>
-                        dsnjknjdksnj
-                        djsnnj
+                        {message.time}
+                    </div>
+                    <div>
+                        {message.text}
                     </div>
                     <hr className="hr-clas"/>
                 </div>

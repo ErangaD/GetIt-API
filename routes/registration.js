@@ -40,6 +40,7 @@ function validateInput(data){
 router.route('/buyerRegistration')
     .post(function (req,res) {
        const {errors, isValid} = validateInput(req.body.user);
+        //if userType is false it implies a buyer
         if(isValid){
             const {userName,name,email,telNo,password} = req.body.user;
             var newUser = new User({

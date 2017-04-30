@@ -4,7 +4,7 @@ var authenticate = require('../middlewares/authentication');
 var validator = require('validator');
 var Comment = require('../model/Comment');
 var Reply = require('../model/Reply');
-var Message = require('../model/Message');
+var Conversation = require('../model/Conversation');
 var isEmpty = require('lodash.isempty');
 function validateInput(data) {
     var errors = {};
@@ -20,23 +20,27 @@ function validateInput(data) {
     }
     );
 }
-router.route('/users')
+router.route('/connectedUsers')
     .get(authenticate,function (req,res) {
         var currentUser=req.currentUser;
         if(currentUser.userType){
-            Message.getBuyers(req.currentUser,function (err,messages) {
+            Conversation.getBuyers(req.currentUser,function (err, result) {
                 if(err){
-
+                    res.status(400).json('Internal error');
                 }else{
-                    console.log(senders);
+                    res.status(200).json(result);
                 }
             });
         }else{
-            Message.getSellers(req.currentUser,function (err,messages) {
+            Conversation.getSellers(req.currentUser._id,function (err, result) {
                 if(err){
-
+                    res.status(400).json('Internal error');
                 }else{
-                    console.log(senders);
+                    var results={
+                        connectedUsers:result,
+                        userType:currentUser.userType
+                    }
+                    res.status(200).json(results);
                 }
             });
         }

@@ -3,11 +3,39 @@ import Message from './ChatMessage'
 class ChatBody extends React.Component{
     constructor(props){
         super(props);
+        var user = {
+            token:localStorage.jwtToken,
+            userName:this.props.selectedUser
+        }
         this.state={
             socket:window.io.connect('http://localhost:3001'),
-            chat:[]
+            messages:[],
+            text:'',
+            sendingData:user
         }
-        this.state.socket.emit('getMessage',localStorage.jwtToken);
+
+        this.state.socket.emit('getMessage',user,function (data) {
+            console.log('fdkjfkdjkjf');
+            this.setState({messages:data});
+        });
+        this.state.socket.on('messages',function(data){
+            this.setState({messages:this.state.messages.push(data)});
+        });
+        this.onSubmit=this.onSubmit.bind(this);
+        this.onChange=this.onChange.bind(this);
+    }
+    onSubmit(e){
+        e.preventDefault();
+        const {token,userName} = this.state.sendingData;
+        var newData={
+            token,
+            userName,
+            text:this.state.text
+        }
+        this.state.socket.emit('send',newData);
+    }
+    onChange(e){
+        this.setState({text:e.target.value})
     }
     render(){
         return(
@@ -30,15 +58,15 @@ class ChatBody extends React.Component{
                         </div>
                     </div>
                     <div className="panel-body chat-box-main">
-                        <Message chat={this.state.chat}/>
+                        <Message chat={this.state.messages}/>
                     </div>
                     <div className="chat-box-footer">
-                        <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Enter Text Here..." />
-                    <span className="input-group-btn">
-                      <button className="btn btn-info" type="button">SEND</button>
-                    </span>
-                        </div>
+                        <form className="input-group" onSubmit={this.onSubmit}>
+                            <input type="text" className="form-control" placeholder="Enter Text Here..." value={this.state.text} onChange={this.onChange}/>
+                            <span className="input-group-btn">
+                              <button className="btn btn-info" type="button">SEND</button>
+                            </span>
+                        </form>
                     </div>
                 </div>
             </div>
