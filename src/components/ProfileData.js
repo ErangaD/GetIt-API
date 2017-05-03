@@ -3,6 +3,7 @@ import React from "react";
 class ProfileData extends React.Component {
     render(){
         let telNo;
+        let address;
         if(this.props.user.telNo) {
             telNo = <tr>
                 <td>Phone Number</td>
@@ -12,6 +13,18 @@ class ProfileData extends React.Component {
         }
         else{
             telNo=null;
+        }
+        if(this.props.user.address){
+            address=<tr>
+                <td>Address:</td>
+                <td>{this.props.user.address.number}<br/>
+                    {this.props.user.address.streetAddress}<br/>
+                    {this.props.user.address.ruralAddress}<br/>
+                    {this.props.user.address.cityName}
+                </td>
+            </tr>
+        }else{
+            address=null;
         }
         return(
                 <section id="featured">
@@ -38,16 +51,7 @@ class ProfileData extends React.Component {
                                                         <td>UserName:</td>
                                                         <td>{this.props.user.userName}</td>
                                                     </tr>
-                                                    {this.props.user.address &&
-                                                        <tr>
-                                                            <td>Address:</td>
-                                                            <td>{this.props.user.address.number}<br/>
-                                                                {this.props.user.address.streetAddress}<br/>
-                                                                {this.props.user.address.ruralAddress}<br/>
-                                                                {this.props.user.address.cityName}
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                                    {address}
                                                     <tr>
                                                         <td>Email</td>
                                                         <td><a href={this.props.user.email}>{this.props.user.email}</a></td>

@@ -10,14 +10,21 @@ var ConversationSchema = new mongoose.Schema({
 });
 var Conversation = module.exports=mongoose.model('Conversation',ConversationSchema);
 module.exports.getBuyers=function (userName,callback) {
-    var query = Conversation.find({buyerUserName:userName}).select('sellerUserName -_id');
-    query.exec(callback);
-}
-module.exports.getSellers=function (userName,callback) {
     var query = Conversation.find({sellerUserName:userName}).select('buyerUserName -_id');
     query.exec(callback);
 }
-module.exports.getMessages=function (buyerUserName,sellerUserName,callback) {
-    var query = Conversation.find({sellerUserName:userName,buyerUserName:userName}).select('messages -_id');
+module.exports.getSellers=function (userName,callback) {
+    var query = Conversation.find({buyerUserName:userName}).select('sellerUserName -_id');
     query.exec(callback);
+}
+module.exports.getMessages=function (buyerUserName,sellerUserName,callback) {
+    var query = Conversation.find({sellerUserName:sellerUserName,buyerUserName:buyerUserName}).select('messages -_id');
+    query.exec(callback); 
+}
+module.exports.getConversation=function (buyerUserName,sellerUserName,callback) {
+    var query = Conversation.find({sellerUserName:sellerUserName,buyerUserName:buyerUserName});
+    query.exec(callback);
+}
+module.exports.createConversation=function (conversation,callback) {
+    conversation.save(callback);
 }

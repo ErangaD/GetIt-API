@@ -4,7 +4,7 @@ class ConnectedUsers extends React.Component{
         let users = this.props.connectedUsers.map(users=>{
             if(this.props.userType){
                 return (
-                    <div className="chat-box-online-left" onClick={() => this.props.getMessages(users.buyerUserName)}>
+                    <div className="chat-box-online-left" onClick={() => this.props.getMessages(users.buyerUserName)} key={users.buyerUserName}>
                         -  {users.buyerUserName}
                         <br />
                         <hr className="hr-clas-low" />
@@ -12,7 +12,7 @@ class ConnectedUsers extends React.Component{
                 )
             }else{
                 return (
-                    <div className="chat-box-online-left" onClick={() => this.props.getMessages(users.sellerUserName)}>
+                    <div className="chat-box-online-left" onClick={() => this.props.getMessages(users.sellerUserName)} key={users.sellerUserName}>
                         -  {users.sellerUserName}
                         <br />
                         <hr className="hr-clas-low" />
@@ -29,14 +29,14 @@ class ConnectedUsers extends React.Component{
                     </div>
                     <div className="panel-body chat-box-online">
                         {users}
-                        <div className="chat-box-online-left" onClick={() => this.props.getMessages("fucker")}>
+                        {/*<div className="chat-box-online-left" onClick={() => this.props.getMessages("fucker")}>
                             -  Justine Goliyad
                             <br />
                             ( <small>Active from 3 hours</small> )
                             <hr className="hr-clas-low" />
                         </div>
 
-                        {/*<div className="chat-box-online-right">
+                        <div className="chat-box-online-right">
                             -  Romin Royeelin
                             <br />
                             ( <small>Active from 10 hours</small> )

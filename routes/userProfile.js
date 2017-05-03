@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authenticate = require('../middlewares/authentication');
 var validator = require('validator');
-var Comment = require('../model/Comment');
+var Post = require('../model/Post');
 var Reply = require('../model/Reply');
 var Conversation = require('../model/Conversation');
 var isEmpty = require('lodash.isempty');
@@ -32,10 +32,11 @@ router.route('/connectedUsers')
                 }
             });
         }else{
-            Conversation.getSellers(req.currentUser._id,function (err, result) {
+            Conversation.getSellers(req.currentUser.userName,function (err, result) {
                 if(err){
                     res.status(400).json('Internal error');
                 }else{
+                    console.log(result);
                     var results={
                         connectedUsers:result,
                         userType:currentUser.userType
@@ -72,9 +73,12 @@ router.route('/reply')
         Reply.addReply(newReply,function (err,reply) {
             if(err){
                 //return an appropriate response
+                console.log(err);
+                res.json(err.response);
             }else{
-                console.log(reply);
+                console.log('successful');
                 //return a success message
+                res.json('successfully added to the database');
             }
         })
     });
@@ -100,13 +104,35 @@ router.route('/profile')
     });
 router.route('/posts')
     .get(authenticate,function (req,res) {
-        Comment.getComments(req.currentUser.id,function (err,comments) {
-            if(err){
-                console.log(err);
-            }else{
-                res.json(comments);
-            }
-        });
+        if(req.currentUser.userType){
+            //if seller
+            console.log(req.currentUser.saleTypes);
+            Post.getPostsForSeller(req.currentUser.saleTypes,function (err, comments) {
+                if(err){
+                    console.log(err);
+                }else{
+                    var data={
+                        comments:comments,
+                        userType:req.currentUser.userType
+                    }
+                    console.log(req.currentUser.saleType);
+                    res.json(data);
+                }
+            });
+        }else{
+            Post.getPosts(req.currentUser.id,function (err, comments) {
+                if(err){
+                    console.log(err);
+                }else{
+                    var data={
+                        comments:comments,
+                        userType:req.currentUser.userType
+                    }
+                    res.json(data);
+                }
+            });
+        }
+
     });
 router.route('/posts')
     .post(authenticate,function (req,res) {
@@ -114,13 +140,13 @@ router.route('/posts')
         const {errors, isValid} = validateInput(data);
         if(isValid){
             const{price,remarks,selectedOption}=data;
-            var newComment=new Comment({
+            var newComment=new Post({
                 userId:req.currentUser.id,
                 remarks:remarks,
                 price:price,
                 saleType:selectedOption
             });
-            Comment.createComment(newComment,function (err,comment) {
+            Post.createPost(newComment,function (err, comment) {
                 if(err){
                     res.status(500).json({error:'Process was unsuccessful'});
                 }else{
@@ -132,4 +158,4 @@ router.route('/posts')
             res.status(400).json(errors);
         }
     });
-module.exports = router;
+module.exports = router; 

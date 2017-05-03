@@ -1,18 +1,14 @@
 import React from 'react';
-class Message extends React.Component{
+import Message from './Message'
+class ChatMessage extends React.Component{
     render(){
         let chat = this.props.chat.map(message=>{
-            return (
-                <div className="chat-box-left">
-                    <div>
-                        {message.time}
-                    </div>
-                    <div>
-                        {message.text}
-                    </div>
-                    <hr className="hr-clas"/>
-                </div>
-            )
+            return(
+                <Message
+                    message={message}
+                    key={message._id}
+                />
+                )
         });
         return(
             <div>
@@ -23,4 +19,4 @@ class Message extends React.Component{
 
     }
 }
-export default Message;
+export default ChatMessage;

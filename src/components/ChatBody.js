@@ -3,9 +3,11 @@ import Message from './ChatMessage'
 class ChatBody extends React.Component{
     constructor(props){
         super(props);
+        //console.log(this.props.selectedUserId);
         var user = {
             token:localStorage.jwtToken,
-            userName:this.props.selectedUser
+            userId:this.props.selectedUserId
+            //contains the id of the other party
         }
         this.state={
             socket:window.io.connect('http://localhost:3001'),
@@ -13,26 +15,33 @@ class ChatBody extends React.Component{
             text:'',
             sendingData:user
         }
-
-        this.state.socket.emit('getMessage',user,function (data) {
-            console.log('fdkjfkdjkjf');
-            this.setState({messages:data});
-        });
-        this.state.socket.on('messages',function(data){
-            this.setState({messages:this.state.messages.push(data)});
-        });
+        //console.log(this.state.sendingData);
+        this.state.socket.emit('getMessage',user);
         this.onSubmit=this.onSubmit.bind(this);
         this.onChange=this.onChange.bind(this);
+        this.getData=this.getData.bind(this);
+        this.setMessages=this.setMessages.bind(this);
+        this.state.socket.on('ongoing',this.getData);
+        this.state.socket.on('messages',this.setMessages);
+    }
+    setMessages(data){
+        this.setState({messages:data.messages});
+    }
+    getData(data){
+        let chat=this.state.messages;
+        let newChat = chat.concat([data]);
+        this.setState({messages:newChat});
     }
     onSubmit(e){
         e.preventDefault();
-        const {token,userName} = this.state.sendingData;
+        const {token,userId} = this.state.sendingData;
         var newData={
             token,
-            userName,
+            userId,
             text:this.state.text
         }
         this.state.socket.emit('send',newData);
+        this.setState({text:''})
     }
     onChange(e){
         this.setState({text:e.target.value})
@@ -64,7 +73,7 @@ class ChatBody extends React.Component{
                         <form className="input-group" onSubmit={this.onSubmit}>
                             <input type="text" className="form-control" placeholder="Enter Text Here..." value={this.state.text} onChange={this.onChange}/>
                             <span className="input-group-btn">
-                              <button className="btn btn-info" type="button">SEND</button>
+                              <button className="btn btn-info" type="submit">SEND</button>
                             </span>
                         </form>
                     </div>

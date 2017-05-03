@@ -7,8 +7,8 @@ class Reply extends React.Component{
     loadMessage(){
         //loading the message stream with current user and user from this reply
         this.context.router.push({
-            pathname:`/user/message`,
-            query:{senderId:this.props.reply.senderId}
+            pathname:`/message`,
+            query:{id:this.props.reply.senderId}
         });
     }
     render(){
@@ -16,11 +16,12 @@ class Reply extends React.Component{
             cursor:'pointer'
         }
         return(
-            <a style={property} onClick={this.loadMessage}><div className="container panel">
-                <h4 className="media-heading">{this.props.reply.price}</h4>
-                <p>{this.props.reply.remarks}</p>
+            <div style={property} onClick={this.loadMessage}>
+                <div className="container panel">
+                    <h4 className="media-heading">{this.props.reply.price}</h4>
+                    <p>{this.props.reply.remarks}</p>
+                </div>
             </div>
-            </a>
         )
     }
 }

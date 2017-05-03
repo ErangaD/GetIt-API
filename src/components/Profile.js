@@ -10,7 +10,9 @@ class Profile extends React.Component {
             name:'',
             telNo:'',
             userName:'',
-            saleType:[]
+            saleType:[],
+            userType:false
+            //address is to set later
         }
         axios.get('http://localhost:3001/api/user/profile',
             {
@@ -21,7 +23,7 @@ class Profile extends React.Component {
             )
             .then((response)=>{
                 const {email,name,userName,userType,saleTypes,telNo} = response.data.user;
-                this.setState({email,name,userName,telNo,saleTypes});
+                this.setState({email,name,userName,userType,telNo,saleTypes});
                 if(userType){
                     this.setState({address:response.data.address});
                 }

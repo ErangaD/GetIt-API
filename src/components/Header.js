@@ -26,8 +26,8 @@ class Header extends Component{
                                     </ul>
                                 </li>
                                 <li><a href="portfolio.html">About</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="blog.html">Contact Us</a></li>
+                                <li><a href="contact.html">Login</a></li>
                             </ul>
                         </div>
                     </div>

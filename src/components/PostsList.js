@@ -7,6 +7,7 @@ class PostsList extends React.Component {
                 <Post
                     comment={comment}
                     key={comment._id}
+                    userType={this.props.userType}
                 />
             )
         });
