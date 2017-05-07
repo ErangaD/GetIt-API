@@ -1,15 +1,11 @@
 var mongoose = require("mongoose");
-var messageSchema = new mongoose.Schema({
-    senderId:{
-        type:String
-    }  ,
-    receiverId:{
-        type:String
-    },
-    message:{
+var MessageSchema = new mongoose.Schema({
+    text:{
         type:String
     },
     time:{
-        type:Date
+        type:Date,
+        default: Date.now
     }
-})
+});
+var Message = module.exports=mongoose.model('Message',MessageSchema);

@@ -36,7 +36,9 @@ var UserSchema= mongoose.Schema({
         ruralAddress:{type:String},
         cityName:{type:String}
     },
-    saleTypes:[String],
+    saleTypes:{
+        type:String
+    },
     time : {
         type : Date,
         default: Date.now

@@ -24,10 +24,12 @@ class Comment extends React.Component{
             .then((response)=>{
                 //can load comments or redirect to another page
                 //have to disable submit button
-                this.setState({isLoading:false});
+                //console.log(response.data);
+                this.setState({isLoading:false,price:'',remarks:'',negotiable:true});
             }).catch(
             (errors)=> {
                 //if errors ensure resubmission
+                console.log(errors);
             }
         );
     }
@@ -42,33 +44,33 @@ class Comment extends React.Component{
         this.setState({[e.target.name]:e.target.value});
     }
     render(){
+        let sellerRelatedForm=null;
+            if(this.props.userType){
+                sellerRelatedForm=<div className="form-group">
+                        <input type="text"
+                               className="form-control"
+                               id="exampleInputPassword1"
+                               name="price"
+                               placeholder="Your Price"
+                               value={this.state.price}
+                               onChange={this.onChange}
+                        />
+                        <div className="checkbox">
+                            <label>
+                                <input type="checkbox"
+                                       name="radio"
+                                       checked={this.state.negotiable}
+                                       onChange={this.handleOptionChange}
+                                />
+                                Negotiable
+                            </label>
+                        </div>
+                    </div>
+            }
         return(
             <div className="form-group">
                 <form onSubmit={ this.handleSubmit }>
-                    {this.props.userType &&
-                        < div className="form-group">
-                            <input type="text"
-                            className="form-control"
-                            id="exampleInputPassword1"
-                            name="price"
-                            placeholder="Your Price"
-                            value={this.state.price}
-                            onChange={this.onChange}
-                            />
-                        </div> &&
-                        <div className="form-group">
-                            <div className="checkbox">
-                                <label>
-                                    <input type="checkbox"
-                                           name="radio"
-                                           checked={this.state.negotiable}
-                                           onChange={this.handleOptionChange}
-                                    />
-                                    Negotiable
-                                </label>
-                            </div>
-                        </div>
-                    }
+                    {sellerRelatedForm}
                     <div className="form-group">
                         <textarea type="text"
                                   className="form-control"

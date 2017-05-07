@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import Reply from './ReplyList';
+import ReplyList from './ReplyList';
 import Comment from './Comment'
 class Post extends React.Component{
     constructor(props){
@@ -8,7 +8,7 @@ class Post extends React.Component{
         this.state={
             id:this.props.comment._id,
             replies:[],
-            userType:false
+            userType:this.props.userType
         }
         this.onClicked=this.onClicked.bind(this);
     }
@@ -45,7 +45,7 @@ class Post extends React.Component{
                                         <h3>{this.props.comment.saleType}</h3>
                                     </div>
                                     <div className="pricing-content">
-                                        <h3>{this.props.comment.price}</h3>
+                                        <h3>Rs:{this.props.comment.price}</h3>
                                     </div>
                                     <div className="pricing-terms">
                                         <p>
@@ -58,7 +58,7 @@ class Post extends React.Component{
                                 </div>
                         </section>
                         <div className="container ">
-                            <Reply reply={this.state.replies}/>
+                            <ReplyList reply={this.state.replies} userId={this.state.userId}/>
                         </div>
                         <section className="post-body">
                             <Comment userType={this.state.userType} id={this.state.id}/>

@@ -8,7 +8,8 @@ class PostPage extends React.Component{
             price:'',
             remarks:'',
             saleType:'vehicle',
-            data:[]
+            data:[],
+            userType:false
         }
         axios.get('http://localhost:3001/api/user/posts',
             {
@@ -18,14 +19,14 @@ class PostPage extends React.Component{
             }
             )
             .then((response)=>{
-                this.setState({data:response.data})
+                this.setState({data:response.data.comments,userType:response.data.userType})
             }).catch(
             (errors)=> {
                 console.log(errors);
                 this.context.router.push({
                     pathname:`/login`,
                     query:{err:'You have to log in'}
-                });
+                }); 
             }
         );
         this.onSubmit=this.onSubmit.bind(this);
@@ -50,7 +51,7 @@ class PostPage extends React.Component{
                 if(status===500){
                     this.setState(
                         {
-                            errors:{email:"This email has been used previously"} , isLoading:false
+                            errors:{error:"Database error ocurred"} , isLoading:false
                         })
                 }else if(status===400){
                     this.setState(
@@ -76,64 +77,66 @@ class PostPage extends React.Component{
         });
     }
     render(){
-        return(
-            <section id="content">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="panel panel-info">
-                                <div className="panel-heading">Add Post</div>
-                                <div className="panel-body">
-                                    <form role="form" onSubmit={this.onSubmit}>
-                                        <div className="form-group">
-                                            <label className="control-label" htmlFor="exampleInputPassword1">Expected Price</label>
-                                            <input type="text"
-                                                   className="form-control"
-                                                   id="exampleInputPassword1"
-                                                   name="price"
-                                                   placeholder="price"
-                                                   value={this.state.price}
-                                                   onChange={this.onChange}
-                                            />
+        let buyerPart;
+        if(this.state.userType){
+            buyerPart=null;
+        }else{
+            buyerPart=<div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="panel panel-info">
+                            <div className="panel-heading">Add Post</div>
+                            <div className="panel-body">
+                                <form role="form" onSubmit={this.onSubmit}>
+                                    <div className="form-group">
+                                        <label className="control-label" htmlFor="exampleInputPassword1">Expected Price</label>
+                                        <input type="text"
+                                               className="form-control"
+                                               id="exampleInputPassword1"
+                                               name="price"
+                                               placeholder="price"
+                                               value={this.state.price}
+                                               onChange={this.onChange}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="control-label">Sale Type</label>
+                                        <div className="radio">
+                                            <label>
+                                                <input type="radio"
+                                                       name="radio"
+                                                       value='electronic'
+                                                       checked={this.state.saleType==='electronic'}
+                                                       onChange={this.handleOptionChange}
+                                                />
+                                                Electronic
+                                            </label>
                                         </div>
-                                        <div className="form-group">
-                                            <label className="control-label">Sale Type</label>
-                                            <div className="radio">
-                                                <label>
-                                                    <input type="radio"
-                                                           name="radio"
-                                                           value='electronic'
-                                                           checked={this.state.saleType==='electronic'}
-                                                           onChange={this.handleOptionChange}
-                                                    />
-                                                    Electronic
-                                                </label>
-                                            </div>
-                                            <div className="radio">
-                                                <label>
-                                                    <input type="radio"
-                                                           name="radio"
-                                                           value='vehicle'
-                                                           checked={this.state.saleType==='vehicle'}
-                                                           onChange={this.handleOptionChange}
-                                                    />
-                                                    Vehicle
-                                                </label>
-                                            </div>
-                                            <div className="radio">
-                                                <label>
-                                                    <input type="radio"
-                                                           name="radio"
-                                                           value="property"
-                                                           checked={this.state.saleType==='property'}
-                                                           onChange={this.handleOptionChange}
-                                                    />
-                                                    Property
-                                                </label>
-                                            </div>
+                                        <div className="radio">
+                                            <label>
+                                                <input type="radio"
+                                                       name="radio"
+                                                       value='vehicle'
+                                                       checked={this.state.saleType==='vehicle'}
+                                                       onChange={this.handleOptionChange}
+                                                />
+                                                Vehicle
+                                            </label>
                                         </div>
-                                        <div className="form-group">
-                                            <label className="control-label" htmlFor="exampleInputEmail1">Remarks</label>
+                                        <div className="radio">
+                                            <label>
+                                                <input type="radio"
+                                                       name="radio"
+                                                       value="property"
+                                                       checked={this.state.saleType==='property'}
+                                                       onChange={this.handleOptionChange}
+                                                />
+                                                Property
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="control-label" htmlFor="exampleInputEmail1">Remarks</label>
                                             <textarea type="text"
                                                       className="form-control"
                                                       id="exampleInputEmail1"
@@ -142,17 +145,21 @@ class PostPage extends React.Component{
                                                       value={this.state.remarks}
                                                       onChange={this.onChange}
                                             />
-                                        </div>
-                                        <button type="submit" className="btn btn-default">Submit</button>
-                                    </form>
-                                </div>
+                                    </div>
+                                    <button type="submit" className="btn btn-default">Submit</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        }
+        return(
+            <section id="content">
+                {buyerPart}
                 <div className="container ">
                     <div className="row">
-                        <PostsList data={this.state.data}/>
+                        <PostsList data={this.state.data} userType={this.state.userType}/>
                     </div>
                 </div>
             </section>

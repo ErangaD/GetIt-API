@@ -9,7 +9,7 @@ var CommentSchema = mongoose.Schema({
     },
     price:{
         type:String
-    },
+    }, 
     remarks:{
         type:String
     },
@@ -18,10 +18,13 @@ var CommentSchema = mongoose.Schema({
         default: Date.now
     }
 });
-var Comment = module.exports=mongoose.model('Comment',CommentSchema);
-module.exports.getComments=function (userId,callback) {
+var Comment = module.exports=mongoose.model('Post',CommentSchema);
+module.exports.getPosts=function (userId, callback) {
     Comment.find({userId:userId},callback);
 }
-module.exports.createComment=function (comment,callback) {
+module.exports.getPostsForSeller=function (saleType, callback) {
+    Comment.find({saleType:saleType},callback);
+}
+module.exports.createPost=function (comment, callback) {
     comment.save(callback);
 }

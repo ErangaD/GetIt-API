@@ -1795,14 +1795,10 @@ article img.pull-right, article .align-right{
 ============================= */
 
 @media (min-width: 768px) and (max-width: 979px) {
-
 	a.detail{
 		background:none;
 		width:100%;
 	}
-
-
-	
 	footer .widget form  input#appendedInputButton {
 		  display: block;
 		  width: 91%;

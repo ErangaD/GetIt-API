@@ -10,8 +10,9 @@ class SellerSignUpForm extends React.Component{
         this.state={
             email:'',
             name:'',
-            tpNumber:'',
+            telNo:'',
             userName:'',
+            saleType:'vehicle',
             password:'',
             password2:'',
             errors:{},
@@ -19,10 +20,17 @@ class SellerSignUpForm extends React.Component{
             number:'',
             laneNumber:'',
             address1:'',
-            address2:''
+            address2:'',
+
         }
         this.handleSignUp=this.handleSignUp.bind(this);
         this.onChange=this.onChange.bind(this);
+        this.handleOptionChange=this.handleOptionChange.bind(this);
+    }
+    handleOptionChange(e){
+        this.setState({
+            saleType:e.target.value
+        });
     }
     isValid(){
         const {errors, isValid} =this.validateInput(this.state);
@@ -37,7 +45,9 @@ class SellerSignUpForm extends React.Component{
         axios.post('http://localhost:3001/api/sellerRegistration',
             {user:this.state})
             .then((response)=>{
-            console.log(response);
+                const token = response.data.token;
+                localStorage.setItem('jwtToken',token);
+                this.context.router.push('/profile');
         }).catch((errors)=>{
             const {status} = errors.response;
             if(status===500){
@@ -148,7 +158,7 @@ class SellerSignUpForm extends React.Component{
                     </div>
                 </div>
                 <div className={classNames("form-group", {'has-error':errors.password2})}>
-                    <label htmlFor="password" className="col-md-3 control-label">Reenter Password</label>
+                    <label htmlFor="password2" className="col-md-3 control-label">Reenter Password</label>
                     <div className="col-md-9">
                         <input type="password"
                                className="form-control"
@@ -160,12 +170,50 @@ class SellerSignUpForm extends React.Component{
                         {errors.password2 && <span className="help-block">{errors.password2}</span>}
                     </div>
                 </div>
+                <div className={classNames("form-group", {'has-error':errors.number})}>
+                    <label htmlFor="forRad" className="col-md-3 control-label">Sale Type</label>
+                    <div className="forRad">
+                        <div className="radio col-md-9">
+                            <label className="control-label">
+                                <input type="radio"
+                                       name="radio"
+                                       value='electronic'
+                                       checked={this.state.saleType==='electronic'}
+                                       onChange={this.handleOptionChange}
+                                />
+                                Electronic
+                            </label>
+                        </div>
+                        <div className="radio col-md-9">
+                            <label className="control-label">
+                                <input type="radio"
+                                       name="radio"
+                                       value='vehicle'
+                                       checked={this.state.saleType==='vehicle'}
+                                       onChange={this.handleOptionChange}
+                                />
+                                Vehicle
+                            </label>
+                        </div>
+                        <div className="radio col-md-9">
+                            <label>
+                                <input type="radio"
+                                       name="radio"
+                                       value="property"
+                                       checked={this.state.saleType==='property'}
+                                       onChange={this.handleOptionChange}
+                                />
+                                Property
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div className={classNames("form-group", {'has-error':errors.telNo})}>
                     <label htmlFor="telNo" className="col-md-3 control-label">Telephone No</label>
                     <div className="col-md-9">
                         <input type="tel"
                                className="form-control"
-                               name="tpNumber"
+                               name="telNo"
                                placeholder="0000000000"
                                value={this.state.telNo}
                                onChange={this.onChange}

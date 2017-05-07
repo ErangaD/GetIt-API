@@ -2,6 +2,8 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 var User = require('../model/User');
 function authentication(req,res,next) {
+   /* // console.log('req arrived');
+    // console.log(req.query);*/
     if(req.query.token){
         var token=req.query.token;
             jwt.verify(token,config.jwtSecret,function (err,decoded) {
