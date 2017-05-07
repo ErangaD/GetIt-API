@@ -21,7 +21,7 @@ var profile = require('./routes/userProfile');
 var port = process.env.API_PORT || 3001;
 
 //db config
-mongoose.connect('mongodb://localhost/getIt_rest');
+mongoose.connect('mongodb://localhost/around');
 
 //now we should configure the API to use bodyParser and look for
 //JSON data in the request body

@@ -23,6 +23,8 @@ class Profile extends React.Component {
             )
             .then((response)=>{
                 const {email,name,userName,userType,saleTypes,telNo} = response.data.user;
+                localStorage.setItem('userId',response.data.user.id);
+                localStorage.setItem('userType',userType);
                 this.setState({email,name,userName,userType,telNo,saleTypes});
                 if(userType){
                     this.setState({address:response.data.address});

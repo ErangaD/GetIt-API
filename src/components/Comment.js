@@ -24,7 +24,7 @@ class Comment extends React.Component{
             .then((response)=>{
                 //can load comments or redirect to another page
                 //have to disable submit button
-                console.log(response.data);
+                //console.log(response.data);
                 this.setState({isLoading:false,price:'',remarks:'',negotiable:true});
             }).catch(
             (errors)=> {
@@ -46,7 +46,7 @@ class Comment extends React.Component{
     render(){
         let sellerRelatedForm=null;
             if(this.props.userType){
-                sellerRelatedForm=< div className="form-group">
+                sellerRelatedForm=<div className="form-group">
                         <input type="text"
                                className="form-control"
                                id="exampleInputPassword1"

@@ -6,14 +6,16 @@ class ChatBody extends React.Component{
         //console.log(this.props.selectedUserId);
         var user = {
             token:localStorage.jwtToken,
-            userId:this.props.selectedUserId
-            //contains the id of the other party
+            userName:this.props.selectedUserName
+            //contains the id of the other party when the buyer click a comment otherwise null
         }
+        //console.log(this.props.selectedUserId);
         this.state={
-            socket:window.io.connect('http://localhost:3001'),
+            socket:this.props.socket,
             messages:[],
             text:'',
-            sendingData:user
+            sendingData:user,
+            userNameOfOtherParty:this.props.selectedUserName
         }
         //console.log(this.state.sendingData);
         this.state.socket.emit('getMessage',user);
@@ -25,7 +27,8 @@ class ChatBody extends React.Component{
         this.state.socket.on('messages',this.setMessages);
     }
     setMessages(data){
-        this.setState({messages:data.messages});
+        //we get an array of array of messages
+        this.setState({messages:data.messages.messages,userNameOfOtherParty:data.userNameOfOther});
     }
     getData(data){
         let chat=this.state.messages;
@@ -34,13 +37,16 @@ class ChatBody extends React.Component{
     }
     onSubmit(e){
         e.preventDefault();
-        const {token,userId} = this.state.sendingData;
-        var newData={
-            token,
-            userId,
-            text:this.state.text
+        if(this.state.userNameOfOtherParty){
+            //only if the user has selected a user
+            const {token} = this.state.sendingData;
+            var newData={
+                token,
+                userName:this.state.userNameOfOtherParty,
+                text:this.state.text
+            }
+            this.state.socket.emit('send',newData);
         }
-        this.state.socket.emit('send',newData);
         this.setState({text:''})
     }
     onChange(e){

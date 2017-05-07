@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 function validateInput(data){
     var errors = {};
-    console.log(data);
+    //console.log(data);
     if(validator.isEmpty(data.email)){
         errors.email = "Email is required";
     }
@@ -100,7 +100,7 @@ router.route('/buyerRegistration')
 router.route('/sellerRegistration')
     .post(function (req,res) {
         var data=req.body.user;
-        console.log(data);
+        //console.log(data);
         const {errors, isValid} = validateInput(data);
         if(isValid){
             const {userName,name,email,telNo,password,saleType} =data;

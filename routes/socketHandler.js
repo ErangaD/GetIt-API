@@ -1,39 +1,42 @@
 var Conversation = require('../model/Conversation');
 var User = require('../model/User');
 var Message = require('../model/Message');
-var authenticate = require('../middlewares/authentication');
+var authenticate = require('../middlewares/socketAuthentication');
 
 
-function getMessages(buyerUserName,sellerUserName,socket){
+function getMessages(buyerUserName,sellerUserName,socket,userNameOfOtherParty){
     Conversation.getMessages(buyerUserName,sellerUserName,function (err, messages) {
         if(!err){
-            socket.emit('messages',messages[0]);
+            //messages contains all the messages in the conversation
+            //console.log(messages);
+            socket.emit('messages',{messages:messages[0],userNameOfOther:userNameOfOtherParty});
         }else{
             console.log(err);
         }
     });
 }
-function getConversation(buyerUserName,sellerUserName,socket) {
+function addConversation(buyerUserName, sellerUserName, socket, text, fn) {
     Conversation.getConversation(buyerUserName,sellerUserName,function (err, conversation) {
         if(!err){
             //conversation object is retrieved
             var message=new Message({
-                text: req.text
+                text: text
             });
-            console.log(conversation.length);
             if(conversation.length==0){
                 var cnv = new Conversation({
-                    sellerUserName:userNameOfOtherParty,
-                    buyerUserName:req.currentUser.userName,
+                    sellerUserName:sellerUserName,
+                    buyerUserName:buyerUserName,
                     messages:[message]
                 });
                 Conversation.createConversation(cnv,function (err,cnvsersation) {
                     if(err){
-                        console.log(err);
+                        throw err;
                     }
                     //sending back the message
                     //console.log(cnvsersation);
                     socket.emit('ongoing',cnvsersation.messages[0]);
+                    //return cnvsersation.messages[0];
+                    fn(cnvsersation.messages[0]);
                 });
             }
             else{
@@ -44,11 +47,13 @@ function getConversation(buyerUserName,sellerUserName,socket) {
                         console.log(err);
                     }else{
                         socket.emit('ongoing',message);
+                        //return message;
+                        fn(message);
                     }
                 });
             }
         }else{
-            console.log(err);
+            throw err;
         }
     })
 }
@@ -60,79 +65,78 @@ module.exports.listen=function(http){
         socket.on('getMessage',function (data) {
             //console.log(data);
             //request can be come without specifying the userId then has to give the last active conversation
-            if(data.userId){
-                //console.log('In user Id');
-                authenticate(data,'',function (req) {
-                    console.log(req);
+            authenticate(data,function (req) {
+                //console.log(req);
+                //data and req is the same
+                if(req.currentUser){
                     socket.userName=req.currentUser.userName;
                     onlineUsers[socket.userName]=socket;
                     //console.log(data.currentUser);
-                    if(data.currentUser){
-                        var userNameOfOtherParty;
-                        User.getUserById(data.userId,function (err,user) {
-                            if(err){
-                                //sending a error message that use does not exists
-                                console.log(err);
-                            }else{
-                                //console.log(user);
-                                userNameOfOtherParty=user.userName;
-                                if(req.currentUser.userType){
-                                    getMessages(userNameOfOtherParty,req.currentUser.userName,socket);
-                                }else{
-                                    getMessages(req.currentUser.userName,userNameOfOtherParty,socket);
-                                }
-                            }
-                        });
-                        //console.log(data.currentUser);
-
-                    }else{
-                        //emit a different message
-                    }
-                })
-            }else{
-                //there is no other on selected
-            }
-        });
-        socket.on('send',function(data){
-            //have to check that authentication works
-            //console.log(data);
-            authenticate(data,'',function (req) {
-                //console.log(req);
-                if(req.userId){
-                    //there is a receiver
-                    if(req.currentUser){
-                        //current user has been retrieved from the database
+                    if(req.userId){
                         var userNameOfOtherParty;
                         User.getUserById(req.userId,function (err,user) {
                             if(err){
                                 //sending a error message that use does not exists
                                 console.log(err);
                             }else{
-                                //console.log(user);
+                                console.log(user);
                                 userNameOfOtherParty=user.userName;
                                 if(req.currentUser.userType){
-                                    //sender is a seller (sender)
-                                    //add data to database
-                                    getConversation(userNameOfOtherParty,req.currentUser.userName,socket);
+                                    getMessages(userNameOfOtherParty,req.currentUser.userName,socket,userNameOfOtherParty);
                                 }else{
-                                    //sender is buyer
-                                    //add data to the database
-                                    getConversation(req.currentUser.userName,userNameOfOtherParty,socket);
+                                    getMessages(req.currentUser.userName,userNameOfOtherParty,socket,userNameOfOtherParty);
                                 }
                             }
                         });
-                        //taking the intended user from the database
+                        //console.log(data.currentUser);
 
-                        if(userNameOfOtherParty in onlineUsers){
-                            onlineUsers[userNameOfOtherParty].emit('currentMessage',{/*created message*/});
+                    }else if(req.userName){
+                        var userNameOfOtherParty=req.userName;
+                        if(req.currentUser.userType){
+                            getMessages(userNameOfOtherParty,req.currentUser.userName,socket,userNameOfOtherParty);
+                        }else{
+                            getMessages(req.currentUser.userName,userNameOfOtherParty,socket,userNameOfOtherParty);
                         }
                     }else{
                         //emit a different message
                     }
                 }
-            })
+            });
         });
-        socket.on('disconnect',function(data){
+        socket.on('send',function(data){
+            //have to check that authentication works
+            //console.log(data);
+            authenticate(data,function (req) {
+                //console.log(req);
+                //data and req is the same
+                if(req.currentUser){
+                    if(req.userName){
+                        var userNameOfOtherParty=req.userName;
+                        if(req.currentUser.userType){
+                            addConversation(userNameOfOtherParty,req.currentUser.userName,socket,req.text,function (message) {
+                                //console.log(userNameOfOtherParty);
+                                if(userNameOfOtherParty in onlineUsers){
+                                    //sending the message if the user in the conversation
+                                    //console.log(userNameOfOtherParty);
+                                    onlineUsers[userNameOfOtherParty].emit('ongoing',message);
+                                }
+                            });
+                        }else{
+                            addConversation(req.currentUser.userName,userNameOfOtherParty,socket,req.text,function (message) {
+                                if(userNameOfOtherParty in onlineUsers){
+                                    //sending the message if the user in the conversation
+                                    //console.log(userNameOfOtherParty);
+                                    onlineUsers[userNameOfOtherParty].emit('ongoing',message);
+                                }
+                            });
+                        }
+                    }else{
+                        //emit a different message
+                    }
+                }
+            });
+        });
+        socket.on('disconnect',function(){
             console.log(socket.userName);
             delete onlineUsers[socket.userName];
             //removing the user when he is deisconnected

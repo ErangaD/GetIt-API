@@ -6,10 +6,14 @@ class Reply extends React.Component{
     }
     loadMessage(){
         //loading the message stream with current user and user from this reply
-        this.context.router.push({
-            pathname:`/message`,
-            query:{id:this.props.reply.senderId}
-        });
+        if(localStorage.userType){
+            if(localStorage.userType==="false"){
+                this.context.router.push({
+                    pathname:`/message`,
+                    query:{userName:this.props.reply.senderUserName}
+                });
+            }
+        }
     }
     render(){
         let property={

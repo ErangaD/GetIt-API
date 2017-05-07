@@ -8,11 +8,11 @@ class ChatPage extends React.Component{
         this.state={
             connectedUsers:[],
             userType:false,
-            selectedUserId:this.props.location.query.id
+            selectedUserName:this.props.location.query.userName,
+            socket:window.io.connect('http://localhost:3001'),
         }
         //console.log(this.state.selectedUserId);
         //we have the sender id of the previous message
-        this.getMessages=this.getMessages.bind(this);
         //getting previously connected users from the server
         axios.get('http://localhost:3001/api/user/connectedUsers',
                     {
@@ -30,6 +30,7 @@ class ChatPage extends React.Component{
                         )
                     }).catch(
                     (errors)=> {
+                        console.log(errors);
                         localStorage.removeItem('jwtToken');
                         this.context.router.push({
                             pathname:`/login`,
@@ -38,16 +39,13 @@ class ChatPage extends React.Component{
                     }
                 );
     }
-    getMessages(userName){
-        this.setState({selectedUserId:userName});
-    }
     render(){
         //console.log(this.state.selectedUserId);
         return(
             <div className="container">
                 <div className="row pad-top pad-bottom">
-                    <MessageList connectedUsers={this.state.connectedUsers} userType={this.state.userType} getMessages={this.getMessages}/>
-                    <ChatBody selectedUserId={this.state.selectedUserId}/>
+                    <MessageList connectedUsers={this.state.connectedUsers} userType={this.state.userType} socket={this.state.socket}/>
+                    <ChatBody selectedUserName={this.state.selectedUserName} socket={this.state.socket}/>
                 </div>
             </div>
         )

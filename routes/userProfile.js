@@ -24,11 +24,15 @@ router.route('/connectedUsers')
     .get(authenticate,function (req,res) {
         var currentUser=req.currentUser;
         if(currentUser.userType){
-            Conversation.getBuyers(req.currentUser,function (err, result) {
+            Conversation.getBuyers(req.currentUser.userName,function (err, result) {
                 if(err){
                     res.status(400).json('Internal error');
                 }else{
-                    res.status(200).json(result);
+                    var results={
+                        connectedUsers:result,
+                        userType:currentUser.userType
+                    }
+                    res.status(200).json(results);
                 }
             });
         }else{
@@ -36,7 +40,7 @@ router.route('/connectedUsers')
                 if(err){
                     res.status(400).json('Internal error');
                 }else{
-                    console.log(result);
+                    //console.log(result);
                     var results={
                         connectedUsers:result,
                         userType:currentUser.userType
@@ -45,7 +49,6 @@ router.route('/connectedUsers')
                 }
             });
         }
-
     });
 router.route('/reply')
     .post(authenticate,function (req,res) {
@@ -56,7 +59,7 @@ router.route('/reply')
         if(user.userType){
             newReply = new Reply({
                 commentId:id,
-                senderId:user.id,
+                senderUserName:user.userName,
                 price:price,
                 negotiable:negotiable,
                 remarks:remarks
@@ -64,7 +67,7 @@ router.route('/reply')
         }else{
             newReply=new Reply({
                 commentId:id,
-                senderId:user.id,
+                senderUserName:user.userName,
                 price:null,
                 negotiable:null,
                 remarks:remarks
@@ -76,7 +79,7 @@ router.route('/reply')
                 console.log(err);
                 res.json(err.response);
             }else{
-                console.log('successful');
+                //console.log('successful');
                 //return a success message
                 res.json('successfully added to the database');
             }
@@ -85,13 +88,14 @@ router.route('/reply')
 router.route('/reply')
     .get(authenticate,function (req,res) {
         var commentId = req.query.commentId;
+        //comment id is received from the params
         if(commentId){
             Reply.getReplies(commentId,function (err,replies) {
                 if(err){
 
                 }
                 else{
-                    console.log(replies);
+                    //console.log(replies);
                     res.json({replies:replies,userType:req.currentUser.userType});
                 }
             });
@@ -106,7 +110,7 @@ router.route('/posts')
     .get(authenticate,function (req,res) {
         if(req.currentUser.userType){
             //if seller
-            console.log(req.currentUser.saleTypes);
+            //console.log(req.currentUser.saleTypes);
             Post.getPostsForSeller(req.currentUser.saleTypes,function (err, comments) {
                 if(err){
                     console.log(err);
@@ -115,7 +119,7 @@ router.route('/posts')
                         comments:comments,
                         userType:req.currentUser.userType
                     }
-                    console.log(req.currentUser.saleType);
+                    //console.log(req.currentUser.saleType);
                     res.json(data);
                 }
             });

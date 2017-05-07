@@ -3,7 +3,7 @@ var replySchema = new mongoose.Schema({
     commentId:{
         type:String
     },
-    senderId:{
+    senderUserName:{
         type:String
     },
     price:{

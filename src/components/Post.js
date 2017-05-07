@@ -45,7 +45,7 @@ class Post extends React.Component{
                                         <h3>{this.props.comment.saleType}</h3>
                                     </div>
                                     <div className="pricing-content">
-                                        <h3>{this.props.comment.price}</h3>
+                                        <h3>Rs:{this.props.comment.price}</h3>
                                     </div>
                                     <div className="pricing-terms">
                                         <p>
@@ -58,7 +58,7 @@ class Post extends React.Component{
                                 </div>
                         </section>
                         <div className="container ">
-                            <ReplyList reply={this.state.replies}/>
+                            <ReplyList reply={this.state.replies} userId={this.state.userId}/>
                         </div>
                         <section className="post-body">
                             <Comment userType={this.state.userType} id={this.state.id}/>
