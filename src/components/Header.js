@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
-
 class Header extends Component{
+    constructor(){
+        super();
+        this.loggedIn=this.loggedIn.bind(this);
+    }
+    loggedIn(){
+        if(localStorage.jwtToken){
+            localStorage.removeItem('jwtToken');
+        }
+        this.context.router.push('/login');
+    }
     render(){
         return(
             <header>
@@ -27,7 +36,7 @@ class Header extends Component{
                                 </li>
                                 <li><a href="portfolio.html">About</a></li>
                                 <li><a href="blog.html">Contact Us</a></li>
-                                <li><a href="contact.html">Login</a></li>
+                                <li><a href="#" onClick={this.loggedIn}>{this.props.logged}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -35,5 +44,8 @@ class Header extends Component{
             </header>
         );
     }
+}
+Header.contextTypes= {
+    router:React.PropTypes.object.isRequired
 }
 export default Header;

@@ -6,6 +6,7 @@ import Login from './components/Login'
 import Profile from './components/Profile'
 import PostPage from './components/PostPage'
 import Message from './components/ChatPage'
+import Report from './components/ReportPage'
 export default(
     <Route component={Root}>
         <Route path="/" component={Login}/>
@@ -14,5 +15,6 @@ export default(
         <Route path="profile" component={Profile}/>
         <Route path="posts" components={PostPage}/>
         <Route path="message" components={Message}/>
+        <Route path="report" component={Report}/>
     </Route>
 )

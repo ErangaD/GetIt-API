@@ -5,7 +5,9 @@ var validator = require('validator');
 var Post = require('../model/Post');
 var Reply = require('../model/Reply');
 var Conversation = require('../model/Conversation');
+var User = require('../model/User');
 var isEmpty = require('lodash.isempty');
+var Report = require('../model/Report');
 function validateInput(data) {
     var errors = {};
     if(validator.isEmpty(data.remarks)){
@@ -160,6 +162,54 @@ router.route('/posts')
             });
         }else{
             res.status(400).json(errors);
+        }
+    });
+
+router.route('/reports')
+    .post(authenticate,function (req,res) {
+        if(!req.currentUser.userType){
+            //if the user is a buyer
+            //after ding validation
+            const{sellerName,remarks}=req.body.data;
+            //check whether the seller exists
+            User.getUserByUsername(sellerName,function(err,seller){
+                if(err){
+                    res.status(500).send({error:'Error in saving data!'});
+                }
+                else if(seller){
+                    var newReport=new Report({
+                        buyerUserName:req.currentUser.userName,
+                        sellerUserName:sellerName,
+                        remarks:remarks
+                    });
+                    Report.addReport(newReport,function (err,report) {
+                        if(err){
+                            res.status(500).send({error:'Error saving data!'});
+                        }
+                        else{
+                            res.send(report);
+                        }
+                    });
+                }else{
+                    res.status(400).send({error:'Seller User Name is invalid!'});
+                }
+
+            });
+
+        }
+    });
+router.route('/reports')
+    .get(authenticate,function (req,res) {
+        if(!req.currentUser.userType){
+            //if the user is a buyer
+            Report.getReports(req.currentUser.userName,function (err,report) {
+                if(err){
+                    res.status(500).send({error:'Internal error, Try again'});
+                }
+                else{
+                    res.send(report);
+                }
+            });
         }
     });
 module.exports = router; 

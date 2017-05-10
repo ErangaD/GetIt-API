@@ -2,12 +2,13 @@ import React,{Component} from 'react';
 import Header from './Header';
 class Root extends Component{
     render(){
-        if(window.location.href.split('/')[3]==="login"){
-            console.log('lodin');
+        let loggedIn='Log In';
+        if(localStorage.jwtToken){
+            loggedIn='Log Out';
         }
         return(
             <div className="container">
-                <Header/>
+                <Header logged={loggedIn}/>
                 {this.props.children}
             </div>
         );
