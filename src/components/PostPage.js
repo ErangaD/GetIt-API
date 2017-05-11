@@ -158,9 +158,7 @@ class PostPage extends React.Component{
             <section id="content">
                 {buyerPart}
                 <div className="container ">
-                    <div className="row">
-                        <PostsList data={this.state.data} userType={this.state.userType}/>
-                    </div>
+                    <PostsList data={this.state.data} userType={this.state.userType}/>
                 </div>
             </section>
         )

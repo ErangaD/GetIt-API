@@ -16,7 +16,11 @@ var reportSchema = new mongoose.Schema({
         type:Date,
         default: Date.now
     },
-    assessed:{
+    assessedBy:{
+        type:String,
+        default:null
+    },
+    finished:{
         type:Boolean,
         default:false
     }
@@ -27,4 +31,32 @@ module.exports.getReports=function (userName,callback) {
 }
 module.exports.addReport=function (report,callback) {
     report.save(callback);
+}
+module.exports.getReportsByDate=function (callback) {
+    Report.find({}).sort({date:-1}).exec(callback);
+}
+module.exports.getReportById=function (id,callback) {
+    Report.findById(id,callback);
+}
+module.exports.filterReports=function (options,callback) {
+    switch (options){
+        case '0':
+            //by date
+            Report.find({}).sort({date:-1}).exec(callback);
+            break;
+        case '1':
+            //by not assessed
+            var query = Report.find({finished:false}).sort({date:-1});
+            query.exec(callback);
+            break;
+        case '2':
+            //assessed
+            var query = Report.find({finished:true}).sort({date:-1});
+            query.exec(callback);
+            break;
+        case '3':
+            //all
+            Report.find({}).exec(callback);
+            break;
+    }
 }
