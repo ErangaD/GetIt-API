@@ -35,7 +35,7 @@ class Post extends React.Component{
     render(){
         return(
         <div className="container">
-            <div className="col-lg-4">
+            <div className="col-md-4">
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <section className="post-body">

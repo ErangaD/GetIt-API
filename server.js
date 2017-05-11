@@ -15,13 +15,14 @@ require('./routes/socketHandler').listen(http)
 var registration= require('./routes/registration');
 var authentication = require('./routes/authentication');
 var profile = require('./routes/userProfile');
+var admin = require('./routes/adminRoutes');
 //var registration = express.Router();
 
 //set our port to either a predetermined port number if you have set it up, or 3001
 var port = process.env.API_PORT || 3001;
 
 //db config
-mongoose.connect('mongodb://localhost/around');
+mongoose.connect('mongodb://localhost/aro');
 
 //now we should configure the API to use bodyParser and look for
 //JSON data in the request body
@@ -47,6 +48,7 @@ app.use('/api', registration);
 */
 app.use('/api/authentication',authentication);
 app.use('/api/user',profile);
+app.use('/api/admin',admin);
 app.use('/api', registration);
 //starts the server and listens for requests
 http.listen(port, function() {
