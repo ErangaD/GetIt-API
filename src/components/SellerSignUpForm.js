@@ -172,7 +172,7 @@ class SellerSignUpForm extends React.Component{
                 </div>
                 <div className={classNames("form-group", {'has-error':errors.number})}>
                     <label htmlFor="forRad" className="col-md-3 control-label">Sale Type</label>
-                    <div className="forRad">
+                    <div className="forRad col-md-9">
                         <div className="radio col-md-9">
                             <label className="control-label">
                                 <input type="radio"

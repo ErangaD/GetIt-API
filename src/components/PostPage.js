@@ -44,7 +44,9 @@ class PostPage extends React.Component{
             {data:data,
             token:localStorage.jwtToken})
             .then((response)=>{
-                //this.context.router.push('/profile');
+                let comments = this.state.data;
+                let newComments = comments.concat([response.data]);
+                this.setState({data:newComments,price:'',saleType:'vehicle',remarks:''});
             }).catch(
             (errors)=> {
                 const {status} = errors.response;
@@ -61,12 +63,6 @@ class PostPage extends React.Component{
                 }
             }
         );
-        let comments = this.state.data;
-        data._id=Date.now();
-        //have to convert to mongoDate
-        data.time = new Date().toLocaleDateString();
-        let newComments = comments.concat([data]);
-        this.setState({data:newComments});
     }
     onChange(e){
         this.setState({[e.target.name]:e.target.value});
@@ -76,6 +72,7 @@ class PostPage extends React.Component{
             saleType:e.target.value
         });
     }
+    
     render(){
         let buyerPart;
         if(this.state.userType){

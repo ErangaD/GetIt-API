@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router'
 class Header extends Component{
     constructor(){
         super();
@@ -25,15 +26,7 @@ class Header extends Component{
                         </div>
                         <div className="navbar-collapse collapse ">
                             <ul className="nav navbar-nav">
-                                <li><a href="index.html">Home</a></li>
-                                <li className="dropdown active">
-                                    <a href="#" className="dropdown-toggle " data-toggle="dropdown" data-hover="dropdown" data-delay={0} data-close-others="false">Features <b className=" icon-angle-down" /></a>
-                                    <ul className="dropdown-menu">
-                                        <li><a href="typography.html">Typography</a></li>
-                                        <li><a href="components.html">Components</a></li>
-                                        <li><a href="pricingbox.html">Pricing box</a></li>
-                                    </ul>
-                                </li>
+                                <li><Link to="/profile">{this.props.home}</Link></li>
                                 <li><a href="portfolio.html">About</a></li>
                                 <li><a href="blog.html">Contact Us</a></li>
                                 <li><a href="#" onClick={this.loggedIn}>{this.props.logged}</a></li>

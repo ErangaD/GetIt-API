@@ -12,7 +12,7 @@ describe("Login check",function(){
 
         // calling home page api
         var user={
-            userName:'rtanga',
+            userName:'Eranga',
             password:'1994'
         }
         server
@@ -27,4 +27,4 @@ describe("Login check",function(){
             });
     });
 
-});
+}); 

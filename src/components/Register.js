@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from "react-router";
 import BuyerSignUpForm from './BuyerSignUpForm';
 import SellerSignUpForm from './SellerSignUpForm';
 class Register extends Component{
@@ -11,7 +10,6 @@ class Register extends Component{
                     <div className="panel panel-info">
                         <div className="panel-heading">
                             <div className="panel-title">Sign Up</div>
-                            <div style={{float: 'right', fontSize: '85%', position: 'relative', top: '-10px'}}><Link to={"/register"}>Sign In</Link></div>
                             <div className="row">
                                 <div className="panel with-nav-tabs panel-info">
                                     <div className="panel-heading">

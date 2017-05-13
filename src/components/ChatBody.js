@@ -28,12 +28,19 @@ class ChatBody extends React.Component{
     }
     setMessages(data){
         //we get an array of array of messages
+        let objDiv;
+        objDiv= document.getElementById("panel");
         this.setState({messages:data.messages.messages,userNameOfOtherParty:data.userNameOfOther});
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
     getData(data){
+        let objDiv;
+        objDiv= document.getElementById("panel");
         let chat=this.state.messages;
         let newChat = chat.concat([data]);
         this.setState({messages:newChat});
+        //scroll.scrollToBottom();
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
     onSubmit(e){
         e.preventDefault();
@@ -72,7 +79,7 @@ class ChatBody extends React.Component{
                             </ul>
                         </div>
                     </div>
-                    <div className="panel-body chat-box-main">
+                    <div id="panel" className="panel-body chat-box-main" style={{maxHeight: 400, overflowY: 'scroll'}}>
                         <Message chat={this.state.messages}/>
                     </div>
                     <div className="chat-box-footer">

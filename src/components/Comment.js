@@ -26,6 +26,7 @@ class Comment extends React.Component{
                 //have to disable submit button
                 //console.log(response.data);
                 this.setState({isLoading:false,price:'',remarks:'',negotiable:true});
+                this.props.fn(response.data);
             }).catch(
             (errors)=> {
                 //if errors ensure resubmission

@@ -33,7 +33,7 @@ function addConversation(buyerUserName, sellerUserName, socket, text, fn) {
                         throw err;
                     }
                     //sending back the message
-                    //console.log(cnvsersation);
+                    console.log(cnvsersation);
                     socket.emit('ongoing',cnvsersation.messages[0]);
                     //return cnvsersation.messages[0];
                     fn(cnvsersation.messages[0]);

@@ -32,7 +32,7 @@ class Report extends React.Component{
     }
     render(){
         return(
-            <div className="container">
+            <div className="col-md-4">
                 <div className="panel panel-default">
                     <div className="panel-body">
                         <section className="post-body">

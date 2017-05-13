@@ -8,10 +8,12 @@ class Reply extends React.Component{
         //loading the message stream with current user and user from this reply
         if(localStorage.userType){
             if(localStorage.userType==="false"){
-                this.context.router.push({
-                    pathname:`/message`,
-                    query:{userName:this.props.reply.senderUserName}
-                });
+                if(this.props.reply.senderUserName!==localStorage.userName){
+                    this.context.router.push({
+                        pathname:`/message`,
+                        query:{userName:this.props.reply.senderUserName}
+                    });
+                }
             }
         }
     }
@@ -21,8 +23,9 @@ class Reply extends React.Component{
         }
         return(
             <div style={property} onClick={this.loadMessage}>
-                <div className="container panel">
-                    <h4 className="media-heading">{this.props.reply.price}</h4>
+                <div className="container">
+                    <h5 className="media-heading right">{this.props.reply.senderUserName}</h5>
+                    <h5 className="media-heading">{this.props.reply.price}</h5>
                     <p>{this.props.reply.remarks}</p>
                 </div>
             </div>
