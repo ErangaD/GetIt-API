@@ -83,7 +83,7 @@ router.route('/reply')
             }else{
                 //console.log('successful');
                 //return a success message
-                res.json('successfully added to the database');
+                res.json(reply);
             }
         })
     });
@@ -156,7 +156,7 @@ router.route('/posts')
                 if(err){
                     res.status(500).json({error:'Process was unsuccessful'});
                 }else{
-                    res.json({success:true});
+                    res.json(comment);
                 }
 
             });

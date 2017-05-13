@@ -4,10 +4,8 @@ var should = require("should");
 
 var server = supertest.agent("http://localhost:3001");
 describe("registration check",function () {
-    var id = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZmY4YjI0MTY1ZmFhMjRhODc4ZDg5MSIsInVzZXJOYW1lIjoicnRhbmdhIiw' +
-        'iaWF0IjoxNDkzODM3ODAxLCJleHAiOjE0OTM4NDg2MDF9.9lA4kQIfb97Tai02ih6TYfBF8vS5rMYns3bzGUjQSk0';
+    var id = localStorage.jwtToken;
     it('registering to new account',function (done) {
-
         var userDetails={
             email:'erangadulshan10@gmail.com',
             name:'eranga',

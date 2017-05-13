@@ -66,7 +66,7 @@ class Reports extends React.Component{
             <div className="container">
                 <div className="row">
                     <div className="col-md-4">
-                        Sort by : 
+                        Sort by :
                         <select className="selectpicker show-menu-arrow" value={this.state.selected}
                                 onChange={this.handleOptionChange}>
                             <option value='0'>Date</option>
@@ -75,7 +75,7 @@ class Reports extends React.Component{
                             <option value='3'>All</option>
                         </select>
                     </div>
-                    <div className="col-md-6 align-self-end">
+                    <div className="col-md-6 col-md-offset-4">
                         <form action className="search-form">
                             <div className="form-group has-feedback">
                                 <label htmlFor="search" className="sr-only">Search</label>
@@ -92,6 +92,9 @@ class Reports extends React.Component{
                     </div>
                 </div>
                 <ReportList data={this.state.reports} fn={this.addReply}/>
+                <div className="row">
+                    <div className="solidline"/> 
+                </div>
             </div>
         )
     }

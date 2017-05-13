@@ -19,7 +19,7 @@ class Report extends React.Component{
     render(){
         return(
             <div className="col-md-6">
-                <div className="card" style={{width:'30rem'}}>
+                <div className="card" style={{width:'30rem',borderColor:'#ff0000'}}>
                     <div className="card-block">
                         <h4 className="card-title">From: {this.props.report.buyerUserName}</h4>
                         <h3 className="card-title">{this.props.report.sellerUserName}</h3>

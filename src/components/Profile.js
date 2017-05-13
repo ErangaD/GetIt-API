@@ -25,6 +25,7 @@ class Profile extends React.Component {
                 const {email,name,userName,userType,saleTypes,telNo} = response.data.user;
                 localStorage.setItem('userId',response.data.user.id);
                 localStorage.setItem('userType',userType);
+                localStorage.setItem('userName',userName);
                 this.setState({email,name,userName,userType,telNo,saleTypes});
                 if(userType){
                     this.setState({address:response.data.address});
@@ -73,7 +74,7 @@ class Profile extends React.Component {
                                     <div className="col-lg-4">
                                         <div className="box">
                                             <div className="box-gray aligncenter">
-                                                <h4>Edit Profile</h4>
+                                                <h4>Complaints</h4>
                                                 <Link to="/posts">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-list-alt" />

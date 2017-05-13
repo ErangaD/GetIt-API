@@ -9,12 +9,12 @@ var CommentSchema = mongoose.Schema({
     },
     price:{
         type:String
-    }, 
+    },  
     remarks:{
         type:String
     },
     time : {
-        type : Date,
+        type : Date,   
         default: Date.now
     }
 });

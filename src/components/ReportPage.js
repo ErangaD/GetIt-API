@@ -103,11 +103,7 @@ class ReportPage extends React.Component{
                     </div>
                 </div>
                 <div className="container ">
-                    <div className="row">
-                        <div className="col-lg-4">
-                            <ReportList data={this.state.previousReports} userType={this.state.userType}/>
-                        </div>
-                    </div>
+                    <ReportList data={this.state.previousReports} userType={this.state.userType}/>
                 </div>
             </section>
         )

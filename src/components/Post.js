@@ -11,30 +11,41 @@ class Post extends React.Component{
             userType:this.props.userType
         }
         this.onClicked=this.onClicked.bind(this);
+        this.updateArray=this.updateArray.bind(this);
     }
     onClicked(e){
         e.preventDefault();
-        axios.get('http://localhost:3001/api/user/reply',
-            {
-                params:{
-                    token:localStorage.jwtToken,
-                    commentId:this.state.id
+        if(this.state.replies.length>0){
+            this.setState({replies:[]});
+        }else{
+            //receiving comments from the server
+            axios.get('http://localhost:3001/api/user/reply',
+                {
+                    params:{
+                        token:localStorage.jwtToken,
+                        commentId:this.state.id
+                    }
+                })
+                .then((response)=>{
+                    this.setState({
+                        replies:response.data.replies,
+                        userType:response.data.userType
+                    });
+                }).catch(
+                (errors)=> {
+                    //have to inform user try again
                 }
-            })
-            .then((response)=>{
-                this.setState({
-                    replies:response.data.replies,
-                    userType:response.data.userType
-                });
-            }).catch(
-            (errors)=> {
-                //have to inform user try again
-            }
-        );
+            );
+        }
+
+    }
+    updateArray(data){
+        let comments = this.state.replies;
+        let newComments = comments.concat([data]);
+        this.setState({replies:newComments});
     }
     render(){
         return(
-        <div className="container">
             <div className="col-md-4">
                 <div className="panel panel-default">
                     <div className="panel-body">
@@ -53,7 +64,7 @@ class Post extends React.Component{
                                         </p>
                                     </div>
                                     <div className="pricing-action">
-                                        <a href="#" onClick={this.onClicked} className="btn btn-medium"><i className="icon-bolt" /> Show Replies </a>
+                                        <a href="#" onClick={this.onClicked} className="btn btn-medium"><i className="icon-bolt" /> Comments </a>
                                     </div>
                                 </div>
                         </section>
@@ -61,12 +72,11 @@ class Post extends React.Component{
                             <ReplyList reply={this.state.replies} userId={this.state.userId}/>
                         </div>
                         <section className="post-body">
-                            <Comment userType={this.state.userType} id={this.state.id}/>
+                            <Comment userType={this.state.userType} id={this.state.id} fn={this.updateArray}/>
                         </section>
                     </div>
                 </div>
             </div>
-        </div>
         )
     }
 }
