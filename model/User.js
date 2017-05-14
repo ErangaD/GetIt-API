@@ -2,6 +2,7 @@
 var mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
 //mongoose.createConnection('mongodb://localhost/getIt_rest');
+
 var db = mongoose.connection;
 
 var UserSchema= mongoose.Schema({

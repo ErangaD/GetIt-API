@@ -8,7 +8,7 @@ var config = require('../config');
 function validateInput(data) {
         var errors = {};
         if(validator.isEmpty(data.userName)){
-            errors.name = "Name is required";
+            errors.userName = "User Name is required";
         }
         if(validator.isEmpty(data.password)){
             errors.password = "Password is required";
@@ -49,6 +49,8 @@ router.route('/')
                     }
                 }
             })
+        }else {
+            res.status(500).json(errors);
         }
     });
 module.exports = router;

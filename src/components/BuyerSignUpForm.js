@@ -65,10 +65,10 @@ class BuyerSignUpForm extends React.Component{
                 .then((response)=>{
                     const token = response.data.token;
                     localStorage.setItem('jwtToken',token);
-                    localStorage.setItem('userId',)
                     this.context.router.push('/profile');
                 }).catch(
             (errors)=> {
+                console.log(errors);
                 const {status} = errors.response;
                 console.log(errors);
                 if(status===500){

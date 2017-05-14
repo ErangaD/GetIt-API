@@ -51,17 +51,18 @@ class Login extends React.Component {
                 this.context.router.push('/profile');
             }).catch((errors)=>{
                 const {status} = errors.response;
-                this.setState({userName:'',password:''});
+                this.setState({userName:'',password:'',isLoading:false});
                 if(status){
                     if(status===500){
                         this.setState(
                             {
-                                errors:{error:"Login error! Login Again"} , isLoading:false
-                            })
+                                errors:errors.response.data , isLoading:false
+                            });
+                        console.log(this.state.errors.userName);
                     }
                 }
         });
-    }
+    }  
     render() {
         const {userName,password,isLoading}=this.state;
         return (
@@ -71,8 +72,11 @@ class Login extends React.Component {
                     <div className={classNames("container", {'has-error':this.props.location.query.err})}>
                         {this.props.location.query.err && <h3><span className="help-block">{this.props.location.query.err}</span></h3>}
                     </div>
-                    <div className={classNames("container", {'has-error':this.state.errors.error})}>
-                        {this.state.errors.error && <h3><span className="help-block">{this.state.errors.error}</span></h3>}
+                    <div className={classNames("container", {'has-error':this.state.errors.password})}>
+                        {this.state.errors.password && <h3><span className="help-block">{this.state.errors.password}</span></h3>}
+                    </div>
+                    <div className={classNames("container", {'has-error':this.state.errors.userName})}>
+                        {this.state.errors.userName && <h3><span className="help-block">{this.state.errors.userName}</span></h3>}
                     </div>
                     <div className="panel panel-info">
                         <div className="panel-heading">
