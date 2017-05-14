@@ -22,8 +22,8 @@ var admin = require('./routes/adminRoutes');
 var port = process.env.API_PORT || 3001;
 
 //db config
-mongoose.connect('mongodb://localhost/aro');
-
+mongoose.connect('mongodb://getitlk:1994@ds139761.mlab.com:39761/getitlk');
+//mongodb://localhost/aro
 //now we should configure the API to use bodyParser and look for
 //JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
