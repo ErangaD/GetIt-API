@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 var Admin = require('../model/Admin');
 function authentication(req,res,next) {
-    /*if(req.body.token){
+    if(req.body.token){
         var token=req.body.token;
         jwt.verify(token,config.jwtSecret,function (err,decoded) {
             if(err){
@@ -14,20 +14,19 @@ function authentication(req,res,next) {
                     if(err){
                         res.status(404).json({error:'There is no such user'});
                     }
-                    const {_id,name,email,userName,userType,saleTypes,telNo} = user;
+                    const {_id,name,email,userName} = user;
                     //getting only the required details since password details must not give with the response
-                    var currentUser = {id:_id,name:name,email:email,userName:userName,userType:userType,saleType:saleTypes,telNo:telNo};
-                    if(userType){
-                        //if the user is a seller sending the address details
-                        currentUser.address=user.address;
-                    }
-                    //setting the current user and sending to client side
+                    var currentUser = {id:_id,name:name,email:email,userName:userName};
                     req.currentUser= currentUser;
                     next();
                 });
             }
         });
-    }*/
-    next();
+    }
+    //else no token redirect
+    else{
+        //console.log(req.body);
+        next();
+    }
 }
 module.exports=authentication;

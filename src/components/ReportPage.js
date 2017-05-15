@@ -54,11 +54,6 @@ class ReportPage extends React.Component{
                 }
             }
         );
-        /*let comments = this.state.previousReports;
-        //have to convert to mongoDate
-        data.time = new Date().toLocaleDateString();
-        let newComments = comments.concat([data]);
-        this.setState({data:newComments});*/
     }
     onChange(e){
         this.setState({[e.target.name]:e.target.value});

@@ -13,7 +13,7 @@ class Report extends React.Component{
         //calling the function of the parent component
         this.props.fn({id:this.props.report._id,reply:this.state.reply});
     }
-    onChange(e){  
+    onChange(e){
         this.setState({[e.target.name]:e.target.value});
     }
     render(){

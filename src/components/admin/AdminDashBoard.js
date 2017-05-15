@@ -1,7 +1,36 @@
 import React from 'react'
 import Media from 'react-media'
 import {Link} from "react-router";
+import axios from 'axios'
 class AdminDashBoard extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            email:'',
+            name:'',
+            userName:''
+            //user details
+        }
+        axios.post('http://localhost:3001/api/admin/dashboard',
+            {
+                token:localStorage.jwtToken
+            }
+            )
+            .then((response)=>{
+                const {email,name,userName} = response.data;
+                localStorage.setItem('userId',response.data.id);
+                localStorage.setItem('userName',userName);
+                this.setState({email,name,userName});
+            }).catch(
+            (errors)=> {
+                localStorage.removeItem('jwtToken');
+                this.context.router.push({
+                    pathname:`/admin`,
+                    query:{err:'You have to log in'}
+                });
+            }
+        );
+    }
     render(){
         return(
             <div className="container">
@@ -53,17 +82,16 @@ class AdminDashBoard extends React.Component{
                                                     <tbody>
                                                     <tr>
                                                         <td>Name  :</td>
-                                                        <td>Eranga Dilkjd</td>
+                                                        <td>{this.state.name}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>UserN  ame:</td>
-                                                        <td> </td>
+                                                        <td>UserName:</td>
+                                                        <td>{this.state.userName}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Email</td>
-                                                        <td><a href="">er angadulshan10@gmail.conmkgj</a></td>
+                                                        <td><a href="">{this.state.email}</a></td>
                                                     </tr>
-
                                                     </tbody>
                                                 </table>
                                             )}
@@ -113,5 +141,8 @@ class AdminDashBoard extends React.Component{
             </div>
         )
     }
+}
+AdminDashBoard.contextTypes= {
+    router:React.PropTypes.object.isRequired
 }
 export default AdminDashBoard;
