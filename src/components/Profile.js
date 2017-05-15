@@ -75,7 +75,7 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Complaints</h4>
-                                                <Link to="/posts">
+                                                <Link to="/report">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-list-alt" />
                                                     </div>
@@ -90,7 +90,7 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Messages</h4>
-                                                <Link to="/posts">
+                                                <Link to="/message">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-user" />
                                                     </div>

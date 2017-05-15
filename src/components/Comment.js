@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios'
+import classNames from 'classnames';
 class Comment extends React.Component{
     constructor(props){
         super(props);
@@ -8,7 +9,8 @@ class Comment extends React.Component{
             remarks:'',
             negotiable:true,
             id:this.props.id,
-            isLoading:false
+            isLoading:false,
+            errors:{}
         }
         this.handleSubmit=this.handleSubmit.bind(this);
         this.onChange=this.onChange.bind(this);
@@ -16,7 +18,7 @@ class Comment extends React.Component{
     }
     handleSubmit(e){
         e.preventDefault();
-        this.setState({isLoading:true});
+        this.setState({isLoading:true,errors:{}});
         axios.post('http://localhost:3001/api/user/reply',
             {data:this.state,
                 token:localStorage.jwtToken
@@ -30,7 +32,7 @@ class Comment extends React.Component{
             }).catch(
             (errors)=> {
                 //if errors ensure resubmission
-                console.log(errors);
+                this.setState({isLoading:false,errors:errors.response.data});
             }
         );
     }
@@ -42,6 +44,10 @@ class Comment extends React.Component{
         }
     }
     onChange(e){
+        if(this.state.errors.price){
+            this.setState({errors:{}})
+        }
+
         this.setState({[e.target.name]:e.target.value});
     }
     render(){
@@ -50,10 +56,9 @@ class Comment extends React.Component{
                 sellerRelatedForm=<div className="form-group">
                         <input type="text"
                                className="form-control"
-                               id="exampleInputPassword1"
                                name="price"
                                placeholder="Your Price"
-                               value={this.state.price}
+                               value={(this.state.errors.price)?('Price is a number'):(this.state.price)}
                                onChange={this.onChange}
                         />
                         <div className="checkbox">
@@ -69,7 +74,7 @@ class Comment extends React.Component{
                     </div>
             }
         return(
-            <div className="form-group">
+            <div className={classNames("form-group", {'has-error':this.state.errors.price})}>
                 <form onSubmit={ this.handleSubmit }>
                     {sellerRelatedForm}
                     <div className="form-group">

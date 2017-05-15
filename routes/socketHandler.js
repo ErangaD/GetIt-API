@@ -33,7 +33,7 @@ function addConversation(buyerUserName, sellerUserName, socket, text, fn) {
                         throw err;
                     }
                     //sending back the message
-                    console.log(cnvsersation);
+                    //console.log(cnvsersation);
                     socket.emit('ongoing',cnvsersation.messages[0]);
                     //return cnvsersation.messages[0];
                     fn(cnvsersation.messages[0]);
@@ -79,7 +79,7 @@ module.exports.listen=function(http){
                                 //sending a error message that use does not exists
                                 console.log(err);
                             }else{
-                                console.log(user);
+                                //console.log(user);
                                 userNameOfOtherParty=user.userName;
                                 if(req.currentUser.userType){
                                     getMessages(userNameOfOtherParty,req.currentUser.userName,socket,userNameOfOtherParty);

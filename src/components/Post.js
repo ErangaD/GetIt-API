@@ -14,6 +14,7 @@ class Post extends React.Component{
         this.updateArray=this.updateArray.bind(this);
     }
     onClicked(e){
+        let objDiv; 
         e.preventDefault();
         if(this.state.replies.length>0){
             this.setState({replies:[]});
@@ -31,6 +32,9 @@ class Post extends React.Component{
                         replies:response.data.replies,
                         userType:response.data.userType
                     });
+                    objDiv= document.getElementById("maxHeight");
+                    //scroll.scrollToBottom();
+                    objDiv.scrollTop = objDiv.scrollHeight;
                 }).catch(
                 (errors)=> {
                     //have to inform user try again
@@ -68,7 +72,7 @@ class Post extends React.Component{
                                     </div>
                                 </div>
                         </section>
-                        <div className="container ">
+                        <div id="maxHeight" className="panel" style={{maxHeight: 300, overflowY: 'scroll'}}>
                             <ReplyList reply={this.state.replies} userId={this.state.userId}/>
                         </div>
                         <section className="post-body">

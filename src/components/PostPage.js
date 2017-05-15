@@ -1,15 +1,18 @@
 import React from 'react';
 import PostsList from './PostsList';
 import axios from 'axios';
+import classNames from 'classnames';
 class PostPage extends React.Component{
     constructor(props){
         super(props);
         this.state={
             price:'',
             remarks:'',
-            saleType:'vehicle',
+            saleType:'Vehicle',
             data:[],
-            userType:false
+            userType:false,
+            errors:{},
+            selected:'0'
         }
         axios.get('http://localhost:3001/api/user/posts',
             {
@@ -26,12 +29,13 @@ class PostPage extends React.Component{
                 this.context.router.push({
                     pathname:`/login`,
                     query:{err:'You have to log in'}
-                }); 
+                });
             }
         );
         this.onSubmit=this.onSubmit.bind(this);
         this.onChange=this.onChange.bind(this);
         this.handleOptionChange=this.handleOptionChange.bind(this);
+        this.handleSort=this.handleSort.bind(this);
     }
     onSubmit(e){
         e.preventDefault();
@@ -40,13 +44,14 @@ class PostPage extends React.Component{
             remarks:this.state.remarks,
             saleType:this.state.saleType
         }
+        this.setState({errors:{}});
         axios.post('http://localhost:3001/api/user/posts',
             {data:data,
             token:localStorage.jwtToken})
             .then((response)=>{
                 let comments = this.state.data;
                 let newComments = comments.concat([response.data]);
-                this.setState({data:newComments,price:'',saleType:'vehicle',remarks:''});
+                this.setState({data:newComments,price:'',saleType:'Vehicle',remarks:''});
             }).catch(
             (errors)=> {
                 const {status} = errors.response;
@@ -61,6 +66,7 @@ class PostPage extends React.Component{
                             errors:errors.response.data , isLoading:false
                         })
                 }
+                console.log(this.state.errors);
             }
         );
     }
@@ -72,12 +78,51 @@ class PostPage extends React.Component{
             saleType:e.target.value
         });
     }
+    handleSort(e){
+        e.preventDefault();
+        //calling the filter post route
+        axios.post('http://localhost:3001/api/user/filterPosts',
+            {
+                token:localStorage.jwtToken,
+                selected:e.target.value
+            })
+            .then((res)=>{
+                this.setState({data:res.data});
+            })
+            .catch((err)=>{
+                //show a message of error
+                console.log(err);
+            });
+        this.setState({selected:e.target.value});
+    }
     
     render(){
-        let buyerPart;
+        let buyerPart,sortOptions;
         if(this.state.userType){
             buyerPart=null;
+            sortOptions=<div className="row">
+                    <div className="col-md-5">
+                        <h3>Sort by :</h3>
+                        <select className="selectpicker show-menu-arrow" value={this.state.selected}
+                                onChange={this.handleSort}>
+                            <option value='0'>Date</option>
+                            <option value='1'>Price</option>
+                        </select>
+                    </div>
+                </div>
         }else{
+            sortOptions=<div className="row">
+                    <div className="col-md-5">
+                        <h3>Sort by :</h3>
+                        <select className="selectpicker show-menu-arrow" value={this.state.selected}
+                                onChange={this.handleSort}>
+                            <option value='0'>Date</option>
+                            <option value='1'>Vehicles</option>
+                            <option value='2'>Electronics</option>
+                            <option value='3'>Property</option>
+                        </select>
+                    </div>
+                </div>
             buyerPart=<div className="container">
                 <div className="row">
                     <div className="col-md-12">
@@ -85,8 +130,8 @@ class PostPage extends React.Component{
                             <div className="panel-heading">Add Post</div>
                             <div className="panel-body">
                                 <form role="form" onSubmit={this.onSubmit}>
-                                    <div className="form-group">
-                                        <label className="control-label" htmlFor="exampleInputPassword1">Expected Price</label>
+                                    <div className={classNames("form-group", {'has-error':this.state.errors.price})}>
+                                        <label className="control-label" htmlFor="exampleInputPassword1">Expecting Price</label>
                                         <input type="text"
                                                className="form-control"
                                                id="exampleInputPassword1"
@@ -95,6 +140,7 @@ class PostPage extends React.Component{
                                                value={this.state.price}
                                                onChange={this.onChange}
                                         />
+                                        {this.state.errors.price && <span className="help-block">{this.state.errors.price}</span>}
                                     </div>
                                     <div className="form-group">
                                         <label className="control-label">Sale Type</label>
@@ -102,8 +148,8 @@ class PostPage extends React.Component{
                                             <label>
                                                 <input type="radio"
                                                        name="radio"
-                                                       value='electronic'
-                                                       checked={this.state.saleType==='electronic'}
+                                                       value='Electronic'
+                                                       checked={this.state.saleType==='Electronic'}
                                                        onChange={this.handleOptionChange}
                                                 />
                                                 Electronic
@@ -113,8 +159,8 @@ class PostPage extends React.Component{
                                             <label>
                                                 <input type="radio"
                                                        name="radio"
-                                                       value='vehicle'
-                                                       checked={this.state.saleType==='vehicle'}
+                                                       value='Vehicle'
+                                                       checked={this.state.saleType==='Vehicle'}
                                                        onChange={this.handleOptionChange}
                                                 />
                                                 Vehicle
@@ -124,15 +170,15 @@ class PostPage extends React.Component{
                                             <label>
                                                 <input type="radio"
                                                        name="radio"
-                                                       value="property"
-                                                       checked={this.state.saleType==='property'}
+                                                       value="Property"
+                                                       checked={this.state.saleType==='Property'}
                                                        onChange={this.handleOptionChange}
                                                 />
                                                 Property
                                             </label>
                                         </div>
                                     </div>
-                                    <div className="form-group">
+                                    <div className={classNames("form-group", {'has-error':this.state.errors.remarks})}>
                                         <label className="control-label" htmlFor="exampleInputEmail1">Remarks</label>
                                             <textarea type="text"
                                                       className="form-control"
@@ -142,6 +188,7 @@ class PostPage extends React.Component{
                                                       value={this.state.remarks}
                                                       onChange={this.onChange}
                                             />
+                                        {this.state.errors.remarks && <span className="help-block">{this.state.errors.remarks}</span>}
                                     </div>
                                     <button type="submit" className="btn btn-default">Submit</button>
                                 </form>
@@ -149,11 +196,13 @@ class PostPage extends React.Component{
                         </div>
                     </div>
                 </div>
+
             </div>
         }
         return(
             <section id="content">
                 {buyerPart}
+                {sortOptions}
                 <div className="container ">
                     <PostsList data={this.state.data} userType={this.state.userType}/>
                 </div>

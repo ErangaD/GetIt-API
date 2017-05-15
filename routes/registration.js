@@ -103,7 +103,7 @@ router.route('/sellerRegistration')
         //console.log(data);
         const {errors, isValid} = validateInput(data);
         if(isValid){
-            const {userName,name,email,telNo,password,saleType} =data;
+            const {userName,name,email,telNo,password,saleType}=data;
             //user type is set to true to inform that user is a seller
             var newUser = new User({
                 name: name,
@@ -112,7 +112,7 @@ router.route('/sellerRegistration')
                 userName: userName,
                 telNo: telNo,
                 userType:true,
-                salesTypes:saleType,
+                saleTypes:saleType,
                 address:{
                     number:data.number,
                     streetAddress:data.laneNumber,

@@ -7,7 +7,7 @@ var replySchema = new mongoose.Schema({
         type:String
     },
     price:{
-        type:String
+        type:Number
     },
     negotiable:{
         type:Boolean
@@ -18,7 +18,8 @@ var replySchema = new mongoose.Schema({
 });
 var Reply = module.exports=mongoose.model('Reply',replySchema);
 module.exports.getReplies=function (commentId,callback) {
-    Reply.find({commentId:commentId},callback);
+    //getting the values in descendant order
+    Reply.find({commentId:commentId}).sort({price:-1}).exec(callback);
 }
 module.exports.addReply=function (reply,callback) {
     reply.save(callback);

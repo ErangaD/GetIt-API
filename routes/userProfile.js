@@ -11,10 +11,13 @@ var Report = require('../model/Report');
 function validateInput(data) {
     var errors = {};
     if(validator.isEmpty(data.remarks)){
-        errors.email = "Remarks are required";
+        errors.remarks = "Remarks are required";
+    }
+    if(!validator.isFloat(data.price)){
+        errors.price = "Price must be a number";
     }
     if(validator.isEmpty(data.price)){
-        errors.name = "Price is required";
+        errors.price = "Price is required";
     }
     return({
         errors,
@@ -52,41 +55,82 @@ router.route('/connectedUsers')
             });
         }
     });
+function validateReply(data){
+    var errors = {};
+    if(validator.isEmpty(data.price)){
+        errors.price = "Price can not be empty";
+    }
+    if(!validator.isFloat(data.price)){
+        errors.price = "Price should be a number";
+    }
+    return({
+        errors,
+        isValid:isEmpty(errors)
+    })
+}
 router.route('/reply')
     .post(authenticate,function (req,res) {
         var data = req.body.data;
-        const {price,remarks,negotiable,id} = data;
-        var user = req.currentUser;
-        var newReply = null;
-        if(user.userType){
-            newReply = new Reply({
-                commentId:id,
-                senderUserName:user.userName,
-                price:price,
-                negotiable:negotiable,
-                remarks:remarks
-            });
-        }else{
-            newReply=new Reply({
-                commentId:id,
-                senderUserName:user.userName,
-                price:null,
-                negotiable:null,
-                remarks:remarks
-            });
-        }
-        Reply.addReply(newReply,function (err,reply) {
-            if(err){
-                //return an appropriate response
-                console.log(err);
-                res.json(err.response);
+        //check validations
+        const{errors,isValid} = validateReply(data);
+        if(isValid){
+            const {price,remarks,negotiable,id} = data;
+            var user = req.currentUser;
+            var newReply = null;
+            if(user.userType){
+                newReply = new Reply({
+                    commentId:id,
+                    senderUserName:user.userName,
+                    price:parseFloat(price),
+                    negotiable:negotiable,
+                    remarks:remarks
+                });
             }else{
-                //console.log('successful');
-                //return a success message
-                res.json(reply);
+                newReply=new Reply({
+                    commentId:id,
+                    senderUserName:user.userName,
+                    price:null,
+                    negotiable:null,
+                    remarks:remarks
+                });
+            }
+            Reply.addReply(newReply,function (err,reply) {
+                if(err){
+                    //return an appropriate response
+                    console.log(err);
+                    res.json(err.response);
+                }else{
+                    //console.log('successful');
+                    //return a success message
+                    res.json(reply);
+                }
+            })
+        }else{
+            res.status(400).json(errors);
+        }
+
+    });
+router.route('/filterPosts')
+    .post(authenticate,function (req,res) {
+        //console.log(req.currentUser);
+        Post.filterPosts(
+            {
+                option:req.body.selected,
+                userId:req.currentUser.id,
+                userType:req.currentUser.userType,
+                saleType:req.currentUser.saleType
+            }
+            ,function (err,response) {
+            if(err){
+                res.status(500).send({error:'Internal error, Try again later'});
+            }
+            else{
+                //sending filtered data
+                res.send(response);
             }
         })
     });
+
 router.route('/reply')
     .get(authenticate,function (req,res) {
         var commentId = req.query.commentId;
@@ -112,8 +156,8 @@ router.route('/posts')
     .get(authenticate,function (req,res) {
         if(req.currentUser.userType){
             //if seller
-            //console.log(req.currentUser.saleTypes);
-            Post.getPostsForSeller(req.currentUser.saleTypes,function (err, comments) {
+            //console.log(req.currentUser.saleType);
+            Post.getPostsForSeller(req.currentUser.saleType,function (err, comments) {
                 if(err){
                     console.log(err);
                 }else{
@@ -145,12 +189,12 @@ router.route('/posts')
         var data = req.body.data;
         const {errors, isValid} = validateInput(data);
         if(isValid){
-            const{price,remarks,selectedOption}=data;
+            const{price,remarks,saleType}=data;
             var newComment=new Post({
                 userId:req.currentUser.id,
                 remarks:remarks,
-                price:price,
-                saleType:selectedOption
+                price:parseFloat(price),
+                saleType:saleType
             });
             Post.createPost(newComment,function (err, comment) {
                 if(err){
