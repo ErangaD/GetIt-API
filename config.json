@@ -1,3 +1,4 @@
 {
-  "server": "http://localhost:3001"
+  "server": "https://getitlkcom.herokuapp.com/"
+
 }
