@@ -8,7 +8,7 @@ class Reply extends React.Component{
                 <div className="text-danger">
                     {showTime}
                 </div>
-                <div className="text-primary">
+                <div className="text-success">
                     {this.props.message.sender}
                 </div>
                 <div className="text-primary">

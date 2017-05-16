@@ -27,8 +27,9 @@ class Header extends Component{
                         <div className="navbar-collapse collapse ">
                             <ul className="nav navbar-nav">
                                 <li><Link to="/profile">{this.props.home}</Link></li>
-                                <li><a href="portfolio.html">About</a></li>
-                                <li><a href="blog.html">Contact Us</a></li>
+                                <li><Link to="/message">{this.props.message}</Link></li>
+                                <li><Link to="/posts">{this.props.posts}</Link></li>
+                                <li><Link to="/report">{this.props.complaints}</Link></li>
                                 <li><a href="#" onClick={this.loggedIn}>{this.props.logged}</a></li>
                             </ul>
                         </div>

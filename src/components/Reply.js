@@ -28,7 +28,7 @@ class Reply extends React.Component{
                         {userName:this.props.reply.senderUserName,
                             token:localStorage.jwtToken})
                         .then((response)=>{
-                            console.log(response);
+                            //console.log(response);
                             this.setState({
                                 Name:response.data.name,
                                 cityName:response.data.address.cityName,
@@ -67,9 +67,9 @@ class Reply extends React.Component{
         return(
             <div style={property} onClick={this.loadMessage}>
                 <div className="container">
-                    <h5 className="media-heading right">{this.props.reply.senderUserName}</h5>
-                    <h5 className="media-heading">{this.props.reply.price}</h5>
-                    <p>{this.props.reply.remarks}</p>
+                    <h5 className="media-heading right text-primary">Seller: {this.props.reply.senderUserName}</h5>
+                    <h5 className="media-heading"><span className="text-danger">Price Rs:</span>{this.props.reply.price}</h5>
+                    <p><span className="text-danger">Remarks: </span>{this.props.reply.remarks}</p>
                 </div>
                 <Modal
                     isOpen={this.state.activeModal}

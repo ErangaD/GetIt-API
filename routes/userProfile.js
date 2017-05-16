@@ -273,6 +273,15 @@ router.route('/reports')
                     res.send(report);
                 }
             });
+        }else{
+            Report.getComplaints(req.currentUser.userName,function (err,report) {
+                if(err){
+                    res.status(500).send({error:'Internal error, Try again'});
+                }
+                else{
+                    res.send(report);
+                }
+            });
         }
     });
 module.exports = router; 

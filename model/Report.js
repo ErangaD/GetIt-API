@@ -38,6 +38,9 @@ module.exports.getReportsByDate=function (callback) {
 module.exports.getReportById=function (id,callback) {
     Report.findById(id,callback);
 }
+module.exports.getComplaints=function(userName,callback){
+    Report.find({sellerUserName:userName}).sort({date:-1}).exec(callback);
+}
 module.exports.filterReports=function (options,callback) {
     switch (options){
         case '0':

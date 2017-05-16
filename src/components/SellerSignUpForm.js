@@ -20,8 +20,7 @@ class SellerSignUpForm extends React.Component{
             number:'',
             laneNumber:'',
             address1:'',
-            address2:'',
-
+            address2:''
         }
         this.handleSignUp=this.handleSignUp.bind(this);
         this.onChange=this.onChange.bind(this);

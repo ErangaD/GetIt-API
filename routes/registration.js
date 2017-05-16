@@ -31,6 +31,9 @@ function validateInput(data){
     if(validator.isEmpty(data.userName)){
         errors.userName="User name is required";
     }
+    if(!validator.isNumeric(data.telNo)){
+        errors.telNo="Telephone number is a number";
+    }
     //console.log(data.userName);
     if(validator.isEmpty(data.telNo)){
         errors.telNo="Telephone number is required";

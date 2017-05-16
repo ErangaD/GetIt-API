@@ -59,9 +59,10 @@ class ReportPage extends React.Component{
         this.setState({[e.target.name]:e.target.value});
     }
     render(){
-        return(
-            <section id="content">
-                <div className="container">
+        let buyerForm;
+        if (localStorage.userType) {
+            if (localStorage.userType === "false") {
+                buyerForm=<div className="container">
                     <div className="row">
                         <div className="col-md-12">
                             <div className="panel panel-info">
@@ -98,6 +99,11 @@ class ReportPage extends React.Component{
                         </div>
                     </div>
                 </div>
+            }
+        }
+        return(
+            <section id="content">
+                {buyerForm}
                 <div className="container ">
                     <ReportList data={this.state.previousReports} userType={this.state.userType}/>
                 </div>
