@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import axios from 'axios'
+var config = require("../../config.json");
 class Reply extends React.Component{
     constructor(props){
         super(props);
@@ -22,7 +23,7 @@ class Reply extends React.Component{
             if (localStorage.userType === "false") {
                 if (this.props.reply.senderUserName !== localStorage.userName) {
 
-                    axios.post('http://localhost:3001/api/user/getUser',
+                    axios.post(config.server+'/api/user/getUser',
                         {userName:this.props.reply.senderUserName,
                             token:localStorage.jwtToken})
                         .then((response)=>{
