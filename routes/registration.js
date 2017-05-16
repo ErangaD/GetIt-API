@@ -67,6 +67,7 @@ router.route('/buyerRegistration')
                     res.status(500).json({error:'Try again'});
                 }else{
                     if(user){
+                        //there is a existing user with the same user name
                         errors.userName = "User name exists";
                         res.status(500).json(errors);
                     }else{
@@ -76,6 +77,7 @@ router.route('/buyerRegistration')
                             }else{
                                 if(user){
                                     errors.email="Email exists";
+                                    //there is the same email in the database
                                     res.status(500).json(errors);
                                 }else{
                                     User.createUser(newUser,function (err,user) {
@@ -123,6 +125,7 @@ router.route('/sellerRegistration')
                     cityName:data.address2
                 }
             });
+            //checking the userName exists
             User.getUserByUsername(userName,function (err,user) {
                 if(err){
                     res.status(500).json({error:'Try again'});
@@ -131,12 +134,14 @@ router.route('/sellerRegistration')
                         errors.userName = "User name exists";
                         res.status(500).json(errors);
                     }else{
+                        //checking the email similarities
                         User.checkEmail(email,function (err,user) {
                             if(err){
                                 res.status(500).json({error:'Try again'});
                             }else{
                                 if(user){
                                     errors.email="Email exists";
+                                    //there is the same email in the database
                                     res.status(500).json(errors);
                                 }else{
                                     User.createUser(newUser,function (err,user) {

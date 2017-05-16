@@ -14,6 +14,7 @@ class Profile extends React.Component {
             userType:false
             //address is to set later
         }
+        //checking the authentication for the requested page
         axios.get('http://localhost:3001/api/user/profile',
             {
                 params:{
@@ -23,6 +24,7 @@ class Profile extends React.Component {
             )
             .then((response)=>{
                 const {email,name,userName,userType,saleTypes,telNo} = response.data.user;
+                //setting the values in the local storage
                 localStorage.setItem('userId',response.data.user.id);
                 localStorage.setItem('userType',userType);
                 localStorage.setItem('userName',userName);

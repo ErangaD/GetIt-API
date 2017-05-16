@@ -10,10 +10,12 @@ var ConversationSchema = new mongoose.Schema({
 });
 var Conversation = module.exports=mongoose.model('Conversation',ConversationSchema);
 module.exports.getBuyers=function (userName,callback) {
+    //getting the buyer when a seller requests
     var query = Conversation.find({sellerUserName:userName}).select('buyerUserName -_id');
     query.exec(callback);
 }
 module.exports.getSellers=function (userName,callback) {
+    //getting the sellers when a buyer requests
     var query = Conversation.find({buyerUserName:userName}).select('sellerUserName -_id');
     query.exec(callback);
 }

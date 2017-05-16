@@ -11,6 +11,7 @@ class ReportPage extends React.Component{
             previousReports:[],
             errors:{}
         }
+        //sending the request to the server to check authentication
         axios.get('http://localhost:3001/api/user/reports',
             {
                 params:{

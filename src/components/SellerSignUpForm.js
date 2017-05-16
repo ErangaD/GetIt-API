@@ -45,10 +45,12 @@ class SellerSignUpForm extends React.Component{
             {user:this.state})
             .then((response)=>{
                 const token = response.data.token;
+                //set the token after the login
                 localStorage.setItem('jwtToken',token);
                 this.context.router.push('/profile');
         }).catch((errors)=>{
             const {status} = errors.response;
+            //set the errors to display messages
             if(status===500){
                 this.setState(
                     {

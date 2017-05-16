@@ -35,6 +35,7 @@ class ChatBody extends React.Component{
     }
     getData(data){
         let objDiv;
+        //scrolling effect to the panel
         objDiv= document.getElementById("panel");
         let chat=this.state.messages;
         let newChat = chat.concat([data]);

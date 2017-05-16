@@ -10,6 +10,7 @@ class Report extends React.Component{
     }
     render(){
         let time = this.props.report.date;
+        //taking the date and time
         let showTime=time.split('T')[0]+"  @  "+time.split('T')[1].split('.')[0];
         return(
             <div className="col-md-4">

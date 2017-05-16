@@ -124,6 +124,7 @@ router.route('/reply')
 router.route('/filterPosts')
     .post(authenticate,function (req,res) {
         //console.log(req.currentUser);
+        //filtering posts by the selected method
         Post.filterPosts(
             {
                 option:req.body.selected,
@@ -149,7 +150,7 @@ router.route('/reply')
         if(commentId){
             Reply.getReplies(commentId,function (err,replies) {
                 if(err){
-
+                    res.status(500).send({error:'Internal error, Try again later'});
                 }
                 else{
                     //console.log(replies);
@@ -199,6 +200,7 @@ router.route('/posts')
     .post(authenticate,function (req,res) {
         var data = req.body.data;
         console.log(data);
+        //check validations in user input
         const {errors, isValid} = validateInput(data);
         if(isValid){
             const{price,remarks,saleType}=data;

@@ -37,13 +37,14 @@ class Post extends React.Component{
                     objDiv.scrollTop = objDiv.scrollHeight;
                 }).catch(
                 (errors)=> {
-                    //have to inform user try again
+                    //error in submitting the form
                 }
             );
         }
 
     }
     updateArray(data){
+        //update the view when a new post is added
         let comments = this.state.replies;
         let newComments = comments.concat([data]);
         this.setState({replies:newComments});
@@ -60,9 +61,9 @@ class Post extends React.Component{
                                         <h3>{this.props.comment.saleType}</h3>
                                     </div>
                                     <div className="pricing-content">
-                                        <h3>Rs:{this.props.comment.price}</h3>
+                                        <h3 className="text-danger">Rs:{this.props.comment.price}</h3>
                                     </div>
-                                    <div className="pricing-terms">
+                                    <div className="bg-info text-white text-center">
                                         <p>
                                             <i className="icon-ok" />{this.props.comment.remarks}
                                         </p>

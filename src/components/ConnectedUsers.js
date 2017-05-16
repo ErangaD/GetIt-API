@@ -19,6 +19,7 @@ class ConnectedUsers extends React.Component{
         let property={
             cursor:'pointer'
         }
+        //setting the onclick such that it loads the required chat
         let users = this.props.connectedUsers.map(users=>{
             if(this.props.userType){
                 return (

@@ -4,20 +4,15 @@ var should = require("should");
 
 var server = supertest.agent("http://localhost:3001");
 
-describe("Add Comments check",function(){
+describe("Admin Report Test",function(){
 
     // #1 should return home page
     var id=null;
-    it("Add Comments",function(done){
+    it("should return a 200 after adding the reply",function(done){
         // calling posts api
-        data={ price:'10000',
-            remarks:'Good condition',
-            negotiable:true,
-            id:'1234567898',
-            isLoading:false,
-            errors:{}};
+        data={id:'456123',reply:'Will see to your complaint!'};
         server
-            .post("/api/user/posts")
+            .post("/api/admin/addReply")
             .send({data,token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5MTljY2Q0NTA4Y2Q5MGI1MDU0ZTgyYiIsInVzZXJOYW1lIjoiRXJhbmdhIiwiaWF0IjoxNDk0ODc4NDgwLCJleHAiOjE0OTQ4ODkyODB9.YTtl6i4sh-W4nvJaX9L3hf-BfH1w6m5vcEhy3AKOdes"})
             .expect(200) // THis is HTTP response
             .end(function(err,res){

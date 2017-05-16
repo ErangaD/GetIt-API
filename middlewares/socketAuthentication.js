@@ -7,7 +7,7 @@ function socketAuth(req,next) {
         jwt.verify(token,config.jwtSecret,function (err,decoded) {
             if(err){
                 //console.log(err);
-                //if the token validation goes wrong respond with 400 error
+                //if the token validation goes wrong respond with current user null
                 req.currentUser=null;
                 next(req);
             }else{

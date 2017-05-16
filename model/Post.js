@@ -23,6 +23,7 @@ module.exports.getPosts=function (userId, callback) {
     Post.find({userId:userId},callback);
 }
 module.exports.getPostsForSeller=function (saleType, callback) {
+    //returning the posts after matching sale type
     Post.find({saleType:saleType},callback);
 }
 module.exports.createPost=function (comment, callback) {

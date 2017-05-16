@@ -15,11 +15,9 @@ class Reply extends React.Component{
             telNo:'',
             email:''
         }
-        //this.closeModal=this.closeModal.bind(this);
         this.sendMessage=this.sendMessage.bind(this);
     }
     loadMessage(){
-
         if (localStorage.userType) {
             if (localStorage.userType === "false") {
                 if (this.props.reply.senderUserName !== localStorage.userName) {
@@ -29,6 +27,7 @@ class Reply extends React.Component{
                             token:localStorage.jwtToken})
                         .then((response)=>{
                             //console.log(response);
+                            //setting the values to display in the modal
                             this.setState({
                                 Name:response.data.name,
                                 cityName:response.data.address.cityName,

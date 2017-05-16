@@ -19,7 +19,6 @@ function addConversation(buyerUserName, sellerUserName, socket, message, fn) {
     Conversation.getConversation(buyerUserName,sellerUserName,function (err, conversation) {
         if(!err){
             //conversation object is retrieved
-
             if(conversation.length==0){
                 var cnv = new Conversation({
                     sellerUserName:sellerUserName,
@@ -115,6 +114,7 @@ module.exports.listen=function(http){
                                 text: req.text,
                                 sender:req.currentUser.userName
                             });
+                            //creating the message with text and the sender
                             addConversation(userNameOfOtherParty,req.currentUser.userName,socket,message,function (message) {
                                 //console.log(userNameOfOtherParty);
                                 if(userNameOfOtherParty in onlineUsers){
@@ -128,6 +128,7 @@ module.exports.listen=function(http){
                                 text: req.text,
                                 sender:req.currentUser.userName
                             });
+                            //creating the message with text and the sender
                             addConversation(req.currentUser.userName,userNameOfOtherParty,socket,message,function (message) {
                                 if(userNameOfOtherParty in onlineUsers){
                                     //sending the message if the user in the conversation

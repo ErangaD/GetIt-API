@@ -11,6 +11,7 @@ class PostsList extends React.Component {
                 />
             )
         });
+        //returning the posts list
         return(
             <div>
                 {postsList}

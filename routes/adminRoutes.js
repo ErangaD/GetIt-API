@@ -82,6 +82,7 @@ router.route('/report')
     });
 router.route('/addReply')
     .post(authenticate,function (req,res) {
+        //adding a reply to a current complaint
         Report.getReportById(req.body.data.id,function (err,response) {
             if(err){
                 res.status(500).send({error:'Internal error, Try again later'});

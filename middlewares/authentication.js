@@ -5,6 +5,7 @@ function authentication(req,res,next) {
    /* // console.log('req arrived');
     // console.log(req.query);*/
     if(req.query.token){
+        //validation for a get request
         var token=req.query.token;
             jwt.verify(token,config.jwtSecret,function (err,decoded) {
                 if(err){
@@ -33,6 +34,7 @@ function authentication(req,res,next) {
             });
     }
     else if(req.body.token){
+        //validation for a post request
         var token=req.body.token;
         jwt.verify(token,config.jwtSecret,function (err,decoded) {
             if(err){

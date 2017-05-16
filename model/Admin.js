@@ -47,6 +47,7 @@ module.exports.getUserById=function (id,callback) {
 }
 module.exports.comparePassword=function (password,hash,callback) {
     bcrypt.compare(password,hash,function (err,isMatch) {
+        //comparing password for the correct user
         if(err)throw err;
         callback(null,isMatch);
     });
