@@ -35,6 +35,7 @@ class ChatBody extends React.Component{
     }
     getData(data){
         let objDiv;
+        //scrolling effect to the panel
         objDiv= document.getElementById("panel");
         let chat=this.state.messages;
         let newChat = chat.concat([data]);
@@ -65,7 +66,7 @@ class ChatBody extends React.Component{
                 <div className="chat-box-div">
                     <div className="chat-box-head">
                         Chat History
-                        <div className="btn-group pull-right">
+                        {/*<div className="btn-group pull-right">
                             <button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <span className="fa fa-cogs" />
                                 <span className="sr-only">Toggle Dropdown</span>
@@ -77,7 +78,7 @@ class ChatBody extends React.Component{
                                 <li className="divider" />
                                 <li><a href="#"><span className="fa fa-circle-o-notch" />&nbsp;Logout</a></li>
                             </ul>
-                        </div>
+                        </div>*/}
                     </div>
                     <div id="panel" className="panel-body chat-box-main" style={{maxHeight: 400, overflowY: 'scroll'}}>
                         <Message chat={this.state.messages}/>

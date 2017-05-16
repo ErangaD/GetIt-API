@@ -12,7 +12,7 @@ class SellerSignUpForm extends React.Component{
             name:'',
             telNo:'',
             userName:'',
-            saleType:'vehicle',
+            saleType:'Vehicle',
             password:'',
             password2:'',
             errors:{},
@@ -20,8 +20,7 @@ class SellerSignUpForm extends React.Component{
             number:'',
             laneNumber:'',
             address1:'',
-            address2:'',
-
+            address2:''
         }
         this.handleSignUp=this.handleSignUp.bind(this);
         this.onChange=this.onChange.bind(this);
@@ -46,10 +45,12 @@ class SellerSignUpForm extends React.Component{
             {user:this.state})
             .then((response)=>{
                 const token = response.data.token;
+                //set the token after the login
                 localStorage.setItem('jwtToken',token);
                 this.context.router.push('/profile');
         }).catch((errors)=>{
             const {status} = errors.response;
+            //set the errors to display messages
             if(status===500){
                 this.setState(
                     {
@@ -177,8 +178,8 @@ class SellerSignUpForm extends React.Component{
                             <label className="control-label">
                                 <input type="radio"
                                        name="radio"
-                                       value='electronic'
-                                       checked={this.state.saleType==='electronic'}
+                                       value='Electronic'
+                                       checked={this.state.saleType==='Electronic'}
                                        onChange={this.handleOptionChange}
                                 />
                                 Electronic
@@ -188,8 +189,8 @@ class SellerSignUpForm extends React.Component{
                             <label className="control-label">
                                 <input type="radio"
                                        name="radio"
-                                       value='vehicle'
-                                       checked={this.state.saleType==='vehicle'}
+                                       value='Vehicle'
+                                       checked={this.state.saleType==='Vehicle'}
                                        onChange={this.handleOptionChange}
                                 />
                                 Vehicle
@@ -199,8 +200,8 @@ class SellerSignUpForm extends React.Component{
                             <label>
                                 <input type="radio"
                                        name="radio"
-                                       value="property"
-                                       checked={this.state.saleType==='property'}
+                                       value="Property"
+                                       checked={this.state.saleType==='Property'}
                                        onChange={this.handleOptionChange}
                                 />
                                 Property

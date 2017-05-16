@@ -21,8 +21,10 @@ var admin = require('./routes/adminRoutes');
 //set our port to either a predetermined port number if you have set it up, or 3001
 var port = process.env.API_PORT || 3001;
 
+
 //db config
-mongoose.connect('mongodb://localhost/aro');
+//mongoose.connect('mongodb://getit:1994@ds139761.mlab.com:39761/getitlk');
+mongoose.connect('mongodb://localhost/po');
 
 //now we should configure the API to use bodyParser and look for
 //JSON data in the request body

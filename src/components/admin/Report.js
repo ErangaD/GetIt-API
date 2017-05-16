@@ -13,10 +13,12 @@ class Report extends React.Component{
         //calling the function of the parent component
         this.props.fn({id:this.props.report._id,reply:this.state.reply});
     }
-    onChange(e){  
+    onChange(e){
         this.setState({[e.target.name]:e.target.value});
     }
-    render(){
+    render(){ 
+        let time=this.props.report.date;
+        let showTime=time.split('T')[0]+"  @  "+time.split('T')[1].split('.')[0];
         return(
             <div className="col-md-6">
                 <div className="card" style={{width:'30rem',borderColor:'#ff0000'}}>
@@ -37,7 +39,7 @@ class Report extends React.Component{
                             </div>
                             <button disabled={this.state.isLoading} type="submit" className="btn btn-default">Submit</button>
                         </form>
-                        <div className="card-link">{this.props.report.date}</div>
+                        <div className="card-link">{showTime}</div>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,7 @@ class ProfileData extends React.Component {
         else{
             telNo=null;
         }
+        //setting the address for the view
         if(this.props.user.address){
             address=<tr>
                 <td>Address:</td>

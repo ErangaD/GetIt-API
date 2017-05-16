@@ -14,6 +14,7 @@ class Post extends React.Component{
         this.updateArray=this.updateArray.bind(this);
     }
     onClicked(e){
+        let objDiv; 
         e.preventDefault();
         if(this.state.replies.length>0){
             this.setState({replies:[]});
@@ -31,15 +32,19 @@ class Post extends React.Component{
                         replies:response.data.replies,
                         userType:response.data.userType
                     });
+                    objDiv= document.getElementById("maxHeight");
+                    //scroll.scrollToBottom();
+                    objDiv.scrollTop = objDiv.scrollHeight;
                 }).catch(
                 (errors)=> {
-                    //have to inform user try again
+                    //error in submitting the form
                 }
             );
         }
 
     }
     updateArray(data){
+        //update the view when a new post is added
         let comments = this.state.replies;
         let newComments = comments.concat([data]);
         this.setState({replies:newComments});
@@ -56,9 +61,9 @@ class Post extends React.Component{
                                         <h3>{this.props.comment.saleType}</h3>
                                     </div>
                                     <div className="pricing-content">
-                                        <h3>Rs:{this.props.comment.price}</h3>
+                                        <h3 className="text-danger">Rs:{this.props.comment.price}</h3>
                                     </div>
-                                    <div className="pricing-terms">
+                                    <div className="bg-info text-white text-center">
                                         <p>
                                             <i className="icon-ok" />{this.props.comment.remarks}
                                         </p>
@@ -68,7 +73,7 @@ class Post extends React.Component{
                                     </div>
                                 </div>
                         </section>
-                        <div className="container ">
+                        <div id="maxHeight" className="panel" style={{maxHeight: 300, overflowY: 'scroll'}}>
                             <ReplyList reply={this.state.replies} userId={this.state.userId}/>
                         </div>
                         <section className="post-body">

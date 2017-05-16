@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-    var User = require('../model/User');
+var User = require('../model/User');
 var validator = require('validator');
 var isEmpty = require('lodash.isempty');
 var jwt = require('jsonwebtoken');
@@ -8,7 +8,7 @@ var config = require('../config');
 function validateInput(data) {
         var errors = {};
         if(validator.isEmpty(data.userName)){
-            errors.name = "Name is required";
+            errors.userName = "User Name is required";
         }
         if(validator.isEmpty(data.password)){
             errors.password = "Password is required";
@@ -25,11 +25,13 @@ router.route('/')
             const {userName,password} = req.body.user;
             User.getUserByUsername(userName,function (err,user) {
                 if(err){
+                    //when an internal error occurs
                     res.status(500).json({error:err});
                 }else{
                     if(user){
                         User.comparePassword(password,user.password,function (err,isMatch) {
                             if(err){
+                                //when an internal error occurs
                                 res.status(500).json({error:err});
                             }else if(isMatch){
                                 //there is a match
@@ -45,10 +47,14 @@ router.route('/')
                         });
                     }
                     else{
+                        //no user in the database
                         res.status(500).json({error:"No user"});
                     }
                 }
             })
+        }else {
+            //user inputs are invalid
+            res.status(500).json(errors);
         }
     });
 module.exports = router;

@@ -10,6 +10,7 @@ import Report from './components/ReportPage'
 import DashBoard from './components/admin/AdminDashBoard'
 import Reports from './components/admin/Reports'
 import ErrorPage from './components/ErrorPage'
+import AdminLogin from './components/admin/AdminLoginForm'
 export default(
     <Route component={Root}>
         <Route path="/" component={Login}/>
@@ -20,7 +21,8 @@ export default(
         <Route path="message" components={Message}/>
         <Route path="report" component={Report}/>
         <Route path="admin/reports" component={Reports}/>
-        <Route path="admin" component={DashBoard}/>
+        <Route path="admin/dashboard" component={DashBoard}/>
+        <Route path="admin" component={AdminLogin}/>
         <Route path="*" component={ErrorPage}/>
     </Route>
 )

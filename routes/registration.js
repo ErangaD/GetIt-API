@@ -31,6 +31,9 @@ function validateInput(data){
     if(validator.isEmpty(data.userName)){
         errors.userName="User name is required";
     }
+    if(!validator.isNumeric(data.telNo)){
+        errors.telNo="Telephone number is a number";
+    }
     //console.log(data.userName);
     if(validator.isEmpty(data.telNo)){
         errors.telNo="Telephone number is required";
@@ -64,6 +67,7 @@ router.route('/buyerRegistration')
                     res.status(500).json({error:'Try again'});
                 }else{
                     if(user){
+                        //there is a existing user with the same user name
                         errors.userName = "User name exists";
                         res.status(500).json(errors);
                     }else{
@@ -73,6 +77,7 @@ router.route('/buyerRegistration')
                             }else{
                                 if(user){
                                     errors.email="Email exists";
+                                    //there is the same email in the database
                                     res.status(500).json(errors);
                                 }else{
                                     User.createUser(newUser,function (err,user) {
@@ -103,7 +108,7 @@ router.route('/sellerRegistration')
         //console.log(data);
         const {errors, isValid} = validateInput(data);
         if(isValid){
-            const {userName,name,email,telNo,password,saleType} =data;
+            const {userName,name,email,telNo,password,saleType}=data;
             //user type is set to true to inform that user is a seller
             var newUser = new User({
                 name: name,
@@ -112,7 +117,7 @@ router.route('/sellerRegistration')
                 userName: userName,
                 telNo: telNo,
                 userType:true,
-                salesTypes:saleType,
+                saleTypes:saleType,
                 address:{
                     number:data.number,
                     streetAddress:data.laneNumber,
@@ -120,6 +125,7 @@ router.route('/sellerRegistration')
                     cityName:data.address2
                 }
             });
+            //checking the userName exists
             User.getUserByUsername(userName,function (err,user) {
                 if(err){
                     res.status(500).json({error:'Try again'});
@@ -128,12 +134,14 @@ router.route('/sellerRegistration')
                         errors.userName = "User name exists";
                         res.status(500).json(errors);
                     }else{
+                        //checking the email similarities
                         User.checkEmail(email,function (err,user) {
                             if(err){
                                 res.status(500).json({error:'Try again'});
                             }else{
                                 if(user){
                                     errors.email="Email exists";
+                                    //there is the same email in the database
                                     res.status(500).json(errors);
                                 }else{
                                     User.createUser(newUser,function (err,user) {

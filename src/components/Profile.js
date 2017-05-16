@@ -14,6 +14,7 @@ class Profile extends React.Component {
             userType:false
             //address is to set later
         }
+        //checking the authentication for the requested page
         axios.get('http://localhost:3001/api/user/profile',
             {
                 params:{
@@ -23,6 +24,7 @@ class Profile extends React.Component {
             )
             .then((response)=>{
                 const {email,name,userName,userType,saleTypes,telNo} = response.data.user;
+                //setting the values in the local storage
                 localStorage.setItem('userId',response.data.user.id);
                 localStorage.setItem('userType',userType);
                 localStorage.setItem('userName',userName);
@@ -75,7 +77,7 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Complaints</h4>
-                                                <Link to="/posts">
+                                                <Link to="/report">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-list-alt" />
                                                     </div>
@@ -90,7 +92,7 @@ class Profile extends React.Component {
                                         <div className="box">
                                             <div className="box-gray aligncenter">
                                                 <h4>Messages</h4>
-                                                <Link to="/posts">
+                                                <Link to="/message">
                                                     <div className="icon">
                                                         <i className="glyphicon glyphicon-user" />
                                                     </div>

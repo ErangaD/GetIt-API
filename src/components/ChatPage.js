@@ -31,6 +31,7 @@ class ChatPage extends React.Component{
                     }).catch(
                     (errors)=> {
                         console.log(errors);
+                        //removing the token if not authenticated
                         localStorage.removeItem('jwtToken');
                         this.context.router.push({
                             pathname:`/login`,

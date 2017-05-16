@@ -1,11 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import {Link} from "react-router";
 var validator = require('validator');
 import axios from 'axios';
 var isEmpty = require('lodash.isempty');
 
-class Login extends React.Component {
+class AdminLoginForm extends React.Component {
     constructor(props){
         super(props);
         this.state={
@@ -43,12 +42,12 @@ class Login extends React.Component {
     onLogin(e){
         e.preventDefault();
         this.setState({errors:{},isLoading:true});
-        axios.post('http://localhost:3001/api/authentication',
+        axios.post('http://localhost:3001/api/admin',
             {user:this.state})
             .then((response)=>{
                 const token = response.data.token;
                 localStorage.setItem('jwtToken',token);
-                this.context.router.push('/profile');
+                this.context.router.push('/admin/dashboard');
             }).catch((errors)=>{
                 const {status} = errors.response;
                 this.setState({userName:'',password:'',isLoading:false});
@@ -58,11 +57,11 @@ class Login extends React.Component {
                             {
                                 errors:errors.response.data , isLoading:false
                             });
-                        console.log(this.state.errors);
+                        console.log(this.state.errors.error);
                     }
                 }
         });
-    }  
+    }
     render() {
         const {userName,password,isLoading}=this.state;
         return (
@@ -72,12 +71,6 @@ class Login extends React.Component {
                     <div className={classNames("container", {'has-error':this.props.location.query.err})}>
                         {this.props.location.query.err && <h3><span className="help-block">{this.props.location.query.err}</span></h3>}
                     </div>
-                    <div className={classNames("container", {'has-error':this.state.errors.password})}>
-                        {this.state.errors.password && <h3><span className="help-block">{this.state.errors.password}</span></h3>}
-                    </div>
-                    <div className={classNames("container", {'has-error':this.state.errors.userName})}>
-                        {this.state.errors.userName && <h3><span className="help-block">{this.state.errors.userName}</span></h3>}
-                    </div>
                     <div className={classNames("container", {'has-error':this.state.errors.error})}>
                         {this.state.errors.error && <h3><span className="help-block">{this.state.errors.error}</span></h3>}
                     </div>
@@ -85,7 +78,7 @@ class Login extends React.Component {
                         <div className="panel-heading">
                             <div className="panel-title">Sign In</div>
                             {/*<div style={{float: 'right', fontSize: '80%', position: 'relative', top: '-10px'}}><a
-                                href="#">Forgot password?</a></div>*/}
+                             href="#">Forgot password?</a></div>*/}
                             {/* forgot password is to be implemented */}
                         </div>
                         <div style={{paddingTop: 30}} className="panel-body">
@@ -133,16 +126,6 @@ class Login extends React.Component {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="form-group">
-                                    <div className="col-md-12 control">
-                                        <div style={{borderTop: '1px solid#888', paddingTop: 15, fontSize: '105%'}}>
-                                            Don't have an account!
-                                            <Link to="/register">
-                                                Sign Up Here
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
                             </form>
                         </div>
                     </div>
@@ -151,7 +134,7 @@ class Login extends React.Component {
         );
     }
 }
-Login.contextTypes= {
+AdminLoginForm.contextTypes= {
     router:React.PropTypes.object.isRequired
 }
-export default Login;
+export default AdminLoginForm;
