@@ -15,13 +15,11 @@ function getMessages(buyerUserName,sellerUserName,socket,userNameOfOtherParty){
         }
     });
 }
-function addConversation(buyerUserName, sellerUserName, socket, text, fn) {
+function addConversation(buyerUserName, sellerUserName, socket, message, fn) {
     Conversation.getConversation(buyerUserName,sellerUserName,function (err, conversation) {
         if(!err){
             //conversation object is retrieved
-            var message=new Message({
-                text: text
-            });
+
             if(conversation.length==0){
                 var cnv = new Conversation({
                     sellerUserName:sellerUserName,
@@ -113,7 +111,11 @@ module.exports.listen=function(http){
                     if(req.userName){
                         var userNameOfOtherParty=req.userName;
                         if(req.currentUser.userType){
-                            addConversation(userNameOfOtherParty,req.currentUser.userName,socket,req.text,function (message) {
+                            var message=new Message({
+                                text: req.text,
+                                sender:req.currentUser.userName
+                            });
+                            addConversation(userNameOfOtherParty,req.currentUser.userName,socket,message,function (message) {
                                 //console.log(userNameOfOtherParty);
                                 if(userNameOfOtherParty in onlineUsers){
                                     //sending the message if the user in the conversation
@@ -122,7 +124,11 @@ module.exports.listen=function(http){
                                 }
                             });
                         }else{
-                            addConversation(req.currentUser.userName,userNameOfOtherParty,socket,req.text,function (message) {
+                            var message=new Message({
+                                text: req.text,
+                                sender:req.currentUser.userName
+                            });
+                            addConversation(req.currentUser.userName,userNameOfOtherParty,socket,message,function (message) {
                                 if(userNameOfOtherParty in onlineUsers){
                                     //sending the message if the user in the conversation
                                     //console.log(userNameOfOtherParty);
@@ -139,7 +145,7 @@ module.exports.listen=function(http){
         socket.on('disconnect',function(){
             console.log(socket.userName);
             delete onlineUsers[socket.userName];
-            //removing the user when he is deisconnected
+            //removing the user when he is disconnected
         })
     });
 }

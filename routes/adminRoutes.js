@@ -56,7 +56,7 @@ router.route('/')
     });
 router.route('/dashboard')
     .post(authenticate,function (req,res) {
-        console.log(req.currentUser);
+        //current logged in user in req.currentUser
         if(req.currentUser){
             res.send(req.currentUser);
         }else {
@@ -91,9 +91,8 @@ router.route('/addReply')
                 response.finished=true;
                 response.save(function (err,resp) {
                     if(err){
-
+                        throw err;
                     }else{
-                        console.log(resp);
                         res.send({success:'Added successfully'});
                     }
 

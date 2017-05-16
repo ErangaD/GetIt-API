@@ -18,11 +18,12 @@ class Report extends React.Component{
                         <section className="post-body">
                             <div className="pricing-box-alt">
                                 <div className="pricing-heading">
-                                    {/*<h6>{this.props.report.time.split('T')[0]}</h6>
-                                    <h3>{this.props.report.sellerName}</h3>*/}
+                                    <h5>{showTime}</h5>
                                 </div>
                                 <div className="pricing-content">
-                                    <h3>{showTime}</h3>
+                                    <h3>
+                                        <span className="text-primary">Seller:</span>{this.props.report.sellerUserName}
+                                    </h3>
                                 </div>
                                 <div className="pricing-terms">
                                     <p>

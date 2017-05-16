@@ -45,38 +45,8 @@ class ConnectedUsers extends React.Component{
                     <div className="chat-box-online-head">
                         Connected Users
                     </div>
-                    <div className="panel-body chat-box-online">
+                    <div className="chat-box-online bg-success text-white">
                         {users}
-                        {/*<div className="chat-box-online-left" onClick={() => this.props.getMessages("fucker")}>
-                            -  Justine Goliyad
-                            <br />
-                            ( <small>Active from 3 hours</small> )
-                            <hr className="hr-clas-low" />
-                        </div>
-
-                        <div className="chat-box-online-right">
-                            -  Romin Royeelin
-                            <br />
-                            ( <small>Active from 10 hours</small> )
-                        </div>
-                        <hr className="hr-clas-low" />
-                        <div className="chat-box-online-left">
-                            -  Justine Goliyad
-                            <br />
-                            ( <small>Active from 3 hours</small> )
-                        </div>
-                        <hr className="hr-clas-low" />
-                        <div className="chat-box-online-right">
-                            -  Romin Royeelin
-                            <br />
-                            ( <small>Active from 10 hours</small> )
-                        </div>
-                        <hr className="hr-clas-low" />
-                        <div className="chat-box-online-left">
-                            -  Justine Goliyad
-                            <br />
-                            ( <small>Active from 3 hours</small> )
-                        </div>*/}
                     </div>
                 </div>
             </div>

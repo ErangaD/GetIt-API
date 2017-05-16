@@ -14,11 +14,13 @@ function authentication(req,res,next) {
                     if(err){
                         res.status(404).json({error:'There is no such user'});
                     }
-                    const {_id,name,email,userName} = user;
-                    //getting only the required details since password details must not give with the response
-                    var currentUser = {id:_id,name:name,email:email,userName:userName};
-                    req.currentUser= currentUser;
-                    next();
+                    if(user){
+                        const {_id,name,email,userName} = user;
+                        //getting only the required details since password details must not give with the response
+                        var currentUser = {id:_id,name:name,email:email,userName:userName};
+                        req.currentUser= currentUser;
+                        next();
+                    }
                 });
             }
         });

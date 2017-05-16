@@ -1,13 +1,15 @@
 import React from 'react';
 import ReportList from './ReportList';
 import axios from 'axios';
+import classNames from 'classnames'
 class ReportPage extends React.Component{
     constructor(props){
         super(props);
         this.state={
             sellerName:'',
             remarks:'',
-            previousReports:[]
+            previousReports:[],
+            errors:{}
         }
         axios.get('http://localhost:3001/api/user/reports',
             {
@@ -20,13 +22,18 @@ class ReportPage extends React.Component{
                 this.setState({previousReports:response.data});
             }).catch(
             (errors)=> {
-                console.log(errors);
+                localStorage.removeItem('jwtToken');
+                this.context.router.push({
+                    pathname:`/login`,
+                    query:{err:'You have to log in'}
+                });
             }
         );
         this.onSubmit=this.onSubmit.bind(this);
         this.onChange=this.onChange.bind(this);
     }
     onSubmit(e){
+        this.setState({errors:{}});
         e.preventDefault();
         var data = {
             sellerName:this.state.sellerName,
@@ -36,22 +43,15 @@ class ReportPage extends React.Component{
             {data:data,
                 token:localStorage.jwtToken})
             .then((response)=>{
-                this.setState({previousReports:this.state.previousReports.concat([response.data])});
+                this.setState({previousReports:this.state.previousReports.concat([response.data]),
+                    sellerName:'',
+                    remarks:''});
             }).catch(
             (errors)=> {
-                const {status} = errors.response;
-                console.log(errors.response.data.error);
-                if(status===500){
-                    this.setState(
-                        {
-                            errors:errors.response.data.error, isLoading:false
-                        })
-                }else if(status===400){
-                    this.setState(
-                        {
-                            errors:errors.response.data.error, isLoading:false
-                        })
-                }
+                this.setState(
+                    {
+                        errors:errors.response.data, isLoading:false
+                    })
             }
         );
     }
@@ -68,7 +68,7 @@ class ReportPage extends React.Component{
                                 <div className="panel-heading">Add Post</div>
                                 <div className="panel-body">
                                     <form role="form" onSubmit={this.onSubmit}>
-                                        <div className="form-group">
+                                        <div className={classNames("form-group", {'has-error':this.state.errors.error})}>
                                             <label className="control-label" htmlFor="exampleInputPassword1">Seller's User Name</label>
                                             <input type="text"
                                                    className="form-control"
@@ -78,8 +78,9 @@ class ReportPage extends React.Component{
                                                    value={this.state.sellerName}
                                                    onChange={this.onChange}
                                             />
+                                            {this.state.errors.error && <span className="help-block">{this.state.errors.error}</span>}
                                         </div>
-                                        <div className="form-group">
+                                        <div className={classNames("form-group", {'has-error':this.state.errors.error})}>
                                             <label className="control-label" htmlFor="exampleInputEmail1">Details</label>
                                             <textarea type="text"
                                                       className="form-control"

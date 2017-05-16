@@ -6,6 +6,9 @@ var MessageSchema = new mongoose.Schema({
     time:{
         type:Date,
         default: Date.now
+    },
+    sender:{
+        type:String
     }
 });
 var Message = module.exports=mongoose.model('Message',MessageSchema);

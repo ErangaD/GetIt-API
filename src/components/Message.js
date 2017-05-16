@@ -5,10 +5,13 @@ class Reply extends React.Component{
         let showTime=time.split('T')[0]+"  @  "+time.split('T')[1].split('.')[0];
         return(
             <div className="chat-box-left">
-                <div>
+                <div className="text-danger">
                     {showTime}
                 </div>
-                <div>
+                <div className="text-primary">
+                    {this.props.message.sender}
+                </div>
+                <div className="text-primary">
                     {this.props.message.text}
                 </div>
                 <hr className="hr-clas"/>

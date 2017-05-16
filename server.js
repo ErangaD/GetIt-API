@@ -24,7 +24,7 @@ var port = process.env.API_PORT || 3001;
 
 //db config
 //mongoose.connect('mongodb://getit:1994@ds139761.mlab.com:39761/getitlk');
-mongoose.connect('mongodb://localhost/sort');
+mongoose.connect('mongodb://localhost/po');
 
 //now we should configure the API to use bodyParser and look for
 //JSON data in the request body

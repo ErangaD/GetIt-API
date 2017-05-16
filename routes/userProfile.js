@@ -25,6 +25,17 @@ function validateInput(data) {
     }
     );
 }
+router.route('/getUser')
+    .post(authenticate,function (req,res) {
+        User.getUserByUsername(req.body.userName,function(err,user) {
+            if(err){
+                res.status(500).send({error:"Internal Error"});
+            }else{
+                res.send(user);
+            }
+        });
+    });
+
 router.route('/connectedUsers')
     .get(authenticate,function (req,res) {
         var currentUser=req.currentUser;
@@ -187,6 +198,7 @@ router.route('/posts')
 router.route('/posts')
     .post(authenticate,function (req,res) {
         var data = req.body.data;
+        console.log(data);
         const {errors, isValid} = validateInput(data);
         if(isValid){
             const{price,remarks,saleType}=data;
@@ -216,29 +228,36 @@ router.route('/reports')
             //after ding validation
             const{sellerName,remarks}=req.body.data;
             //check whether the seller exists
-            User.getUserByUsername(sellerName,function(err,seller){
-                if(err){
-                    res.status(500).send({error:'Error in saving data!'});
-                }
-                else if(seller){
-                    var newReport=new Report({
-                        buyerUserName:req.currentUser.userName,
-                        sellerUserName:sellerName,
-                        remarks:remarks
-                    });
-                    Report.addReport(newReport,function (err,report) {
-                        if(err){
-                            res.status(500).send({error:'Error saving data!'});
-                        }
-                        else{
-                            res.send(report);
-                        }
-                    });
-                }else{
-                    res.status(400).send({error:'Seller User Name is invalid!'});
-                }
 
-            });
+            if(!validator.isEmpty(remarks)){
+                //remarks are not empty
+                User.getUserByUsername(sellerName,function(err,seller){
+                    if(err){
+                        res.status(500).send({error:'Error in saving data!'});
+                    }
+                    else if(seller){
+                        var newReport=new Report({
+                            buyerUserName:req.currentUser.userName,
+                            sellerUserName:sellerName,
+                            remarks:remarks
+                        });
+                        Report.addReport(newReport,function (err,report) {
+                            if(err){
+                                res.status(500).send({error:'Error saving data!'});
+                            }
+                            else{
+                                res.send(report);
+                            }
+                        });
+                    }else{
+                        res.status(400).send({error:'Seller User Name is invalid!'});
+                    }
+
+                });
+            }else{
+                res.status(400).send({remarks:'Remarks can not be empty!'});
+            }
+
 
         }
     });

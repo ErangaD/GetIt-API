@@ -37,8 +37,10 @@ function authentication(req,res,next) {
         jwt.verify(token,config.jwtSecret,function (err,decoded) {
             if(err){
                 //if the token validation goes wrong respond with 400 error
+                //console.log(err);
                 res.status(400).json({error:'Failed to authenticate'});
             }else{
+                //console.log(token);
                 User.getUserById(decoded.id,function (err,user) {
                     //if the token is valid finding the user
                     if(err){

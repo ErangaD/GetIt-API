@@ -58,7 +58,7 @@ class Login extends React.Component {
                             {
                                 errors:errors.response.data , isLoading:false
                             });
-                        console.log(this.state.errors.userName);
+                        console.log(this.state.errors);
                     }
                 }
         });
@@ -77,6 +77,9 @@ class Login extends React.Component {
                     </div>
                     <div className={classNames("container", {'has-error':this.state.errors.userName})}>
                         {this.state.errors.userName && <h3><span className="help-block">{this.state.errors.userName}</span></h3>}
+                    </div>
+                    <div className={classNames("container", {'has-error':this.state.errors.error})}>
+                        {this.state.errors.error && <h3><span className="help-block">{this.state.errors.error}</span></h3>}
                     </div>
                     <div className="panel panel-info">
                         <div className="panel-heading">
