@@ -3,7 +3,7 @@ var should = require("should");
 // This agent refers to PORT where program is runninng.
 
 var server = supertest.agent("http://localhost:3001");
-
+/*
 describe("Add posts check",function(){
 
     // #1 should return home page
@@ -23,4 +23,4 @@ describe("Add posts check",function(){
             });
     });
 
-});
+});*/

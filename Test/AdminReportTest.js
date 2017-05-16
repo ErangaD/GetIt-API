@@ -4,7 +4,7 @@ var should = require("should");
 
 var server = supertest.agent("http://localhost:3001");
 
-describe("Admin Report Test",function(){
+/*describe("Admin Report Test",function(){
 
     // #1 should return home page
     var id=null;
@@ -22,4 +22,4 @@ describe("Admin Report Test",function(){
             });
     });
 
-});
+});*/

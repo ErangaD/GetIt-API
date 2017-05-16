@@ -102,9 +102,14 @@ class ReportPage extends React.Component{
                 </div>
             }
         }
+        let empty;
+        if(!(this.state.previousReports.length>0)){
+            empty=<h2>There is no Complaints</h2>
+        }
         return(
             <section id="content">
                 {buyerForm}
+                {empty}
                 <div className="container ">
                     <ReportList data={this.state.previousReports} userType={this.state.userType}/>
                 </div>

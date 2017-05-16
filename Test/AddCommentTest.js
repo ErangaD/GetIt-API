@@ -4,7 +4,7 @@ var should = require("should");
 
 var server = supertest.agent("http://localhost:3001");
 
-describe("Add Comments check",function(){
+/*describe("Add Comments check",function(){
 
     // #1 should return home page
     var id=null;
@@ -27,4 +27,4 @@ describe("Add Comments check",function(){
             });
     });
 
-});
+});*/

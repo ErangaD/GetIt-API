@@ -30,7 +30,7 @@ function socketAuth(req,next) {
                     }
                 });
             }
-
+ 
         });
     }
 }
