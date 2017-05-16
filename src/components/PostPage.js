@@ -2,6 +2,7 @@ import React from 'react';
 import PostsList from './PostsList';
 import axios from 'axios';
 import classNames from 'classnames';
+var config = require("../../config.json");
 class PostPage extends React.Component{
     constructor(props){
         super(props);
@@ -14,7 +15,7 @@ class PostPage extends React.Component{
             errors:{},
             selected:'0'
         }
-        axios.get('http://localhost:3001/api/user/posts',
+        axios.get(config.server+'/api/user/posts',
             {
                 params:{
                     token:localStorage.jwtToken
@@ -45,7 +46,7 @@ class PostPage extends React.Component{
             saleType:this.state.saleType
         }
         this.setState({errors:{}});
-        axios.post('http://localhost:3001/api/user/posts',
+        axios.post(config.server+'/api/user/posts',
             {data:data,
             token:localStorage.jwtToken})
             .then((response)=>{
@@ -81,7 +82,7 @@ class PostPage extends React.Component{
     handleSort(e){
         e.preventDefault();
         //calling the filter post route
-        axios.post('http://localhost:3001/api/user/filterPosts',
+        axios.post(config.server+'/api/user/filterPosts',
             {
                 token:localStorage.jwtToken,
                 selected:e.target.value

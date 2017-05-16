@@ -30,7 +30,11 @@ class ChatBody extends React.Component{
         //we get an array of array of messages
         let objDiv;
         objDiv= document.getElementById("panel");
-        this.setState({messages:data.messages.messages,userNameOfOtherParty:data.userNameOfOther});
+        //console.log(data);
+        if(data.messages){
+            this.setState({messages:data.messages.messages,userNameOfOtherParty:data.userNameOfOther});
+        }
+        this.setState({userNameOfOtherParty:data.userNameOfOther});
         objDiv.scrollTop = objDiv.scrollHeight;
     }
     getData(data){
@@ -53,6 +57,7 @@ class ChatBody extends React.Component{
                 userName:this.state.userNameOfOtherParty,
                 text:this.state.text
             }
+            //console.log(newData);
             this.state.socket.emit('send',newData);
         }
         this.setState({text:''})

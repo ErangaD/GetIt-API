@@ -4,7 +4,7 @@ var should = require("should");
 
 var server = supertest.agent("http://localhost:3001");
 
-describe("Posts check",function(){
+/*describe("Posts check",function(){
 
     // #1 should return home page
     var id=null;
@@ -22,4 +22,4 @@ describe("Posts check",function(){
             });
     });
 
-});
+});*/

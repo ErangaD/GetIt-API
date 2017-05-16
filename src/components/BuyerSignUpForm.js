@@ -3,6 +3,7 @@ import axios from 'axios';
 import classNames from 'classnames';
 var validator = require('validator');
 var isEmpty = require('lodash.isempty');
+var config = require("../../config.json");
 class BuyerSignUpForm extends React.Component{
     constructor(props){
         super(props);
@@ -60,7 +61,7 @@ class BuyerSignUpForm extends React.Component{
     handleBuyerRegistration(e){
         e.preventDefault();
         this.setState({errors:{},isLoading:true});
-        axios.post('http://localhost:3001/api/buyerRegistration',
+        axios.post(config.server+'/api/buyerRegistration',
                 {user:this.state})
                 .then((response)=>{
                     const token = response.data.token;

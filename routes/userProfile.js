@@ -233,7 +233,7 @@ router.route('/reports')
 
             if(!validator.isEmpty(remarks)){
                 //remarks are not empty
-                User.getUserByUsername(sellerName,function(err,seller){
+                User.getSellerByUsername(sellerName,function(err,seller){
                     if(err){
                         res.status(500).send({error:'Error in saving data!'});
                     }

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import ReplyList from './ReplyList';
 import Comment from './Comment'
+var config = require("../../config.json")
 class Post extends React.Component{
     constructor(props){
         super(props);
@@ -20,7 +21,7 @@ class Post extends React.Component{
             this.setState({replies:[]});
         }else{
             //receiving comments from the server
-            axios.get('http://localhost:3001/api/user/reply',
+            axios.get(config.server+'/api/user/reply',
                 {
                     params:{
                         token:localStorage.jwtToken,

@@ -4,6 +4,7 @@ console.log("begining of the server");
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var path = require('path');
 //and create our instances
 var app = express();
 
@@ -21,11 +22,11 @@ var admin = require('./routes/adminRoutes');
 //set our port to either a predetermined port number if you have set it up, or 3001
 var port = process.env.API_PORT || 3001;
 
-
+app.use(express.static(path.join(__dirname,'/build')));
 //db config
-//mongoose.connect('mongodb://getit:1994@ds139761.mlab.com:39761/getitlk');
-mongoose.connect('mongodb://localhost/po');
-
+//mongodb://localhost/get_it_application
+mongoose.connect('mongodb://ErangaD:Erangadulshan10@ds143181.mlab.com:43181/getitlk');
+//mongodb://ErangaD:Erangadulshan10@ds143181.mlab.com:43181/getitlk
 //now we should configure the API to use bodyParser and look for
 //JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,8 +53,12 @@ app.use('/api/authentication',authentication);
 app.use('/api/user',profile);
 app.use('/api/admin',admin);
 app.use('/api', registration);
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'/build/index.html'));
+});
 //starts the server and listens for requests
 http.listen(port, function() {
     console.log(`api running  on port ${port}`);
 });
 module.exports = express;
+//react-scripts start

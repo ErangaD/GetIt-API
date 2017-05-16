@@ -2,6 +2,7 @@ import React from "react";
 import ProfileData from './ProfileData';
 import axios from 'axios';
 import {Link} from "react-router";
+var config = require("../../config.json");
 class Profile extends React.Component {
     constructor(props){
         super(props);
@@ -15,7 +16,7 @@ class Profile extends React.Component {
             //address is to set later
         }
         //checking the authentication for the requested page
-        axios.get('http://localhost:3001/api/user/profile',
+        axios.get(config.server+'/api/user/profile',
             {
                 params:{
                     token:localStorage.jwtToken

@@ -2,6 +2,7 @@ import React from 'react';
 import MessageList from './ConnectedUsers';
 import ChatBody from './ChatBody';
 import axios from 'axios';
+var config = require("../../config.json");
 class ChatPage extends React.Component{
     constructor(props){
         super(props);
@@ -9,12 +10,12 @@ class ChatPage extends React.Component{
             connectedUsers:[],
             userType:false,
             selectedUserName:this.props.location.query.userName,
-            socket:window.io.connect('http://localhost:3001'),
+            socket:window.io.connect(config.server),
         }
         //console.log(this.state.selectedUserId);
         //we have the sender id of the previous message
         //getting previously connected users from the server
-        axios.get('http://localhost:3001/api/user/connectedUsers',
+        axios.get(config.server+'/api/user/connectedUsers',
                     {
                         params:{
                             token:localStorage.jwtToken

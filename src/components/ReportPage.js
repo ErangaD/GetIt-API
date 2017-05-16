@@ -2,6 +2,7 @@ import React from 'react';
 import ReportList from './ReportList';
 import axios from 'axios';
 import classNames from 'classnames'
+var config = require("../../config.json");
 class ReportPage extends React.Component{
     constructor(props){
         super(props);
@@ -12,7 +13,7 @@ class ReportPage extends React.Component{
             errors:{}
         }
         //sending the request to the server to check authentication
-        axios.get('http://localhost:3001/api/user/reports',
+        axios.get(config.server+'/api/user/reports',
             {
                 params:{
                     token:localStorage.jwtToken
@@ -40,7 +41,7 @@ class ReportPage extends React.Component{
             sellerName:this.state.sellerName,
             remarks:this.state.remarks
         }
-        axios.post('http://localhost:3001/api/user/reports',
+        axios.post(config.server+'/api/user/reports',
             {data:data,
                 token:localStorage.jwtToken})
             .then((response)=>{
@@ -102,9 +103,14 @@ class ReportPage extends React.Component{
                 </div>
             }
         }
+        let empty;
+        if(!(this.state.previousReports.length>0)){
+            empty=<h2>There is no Complaints</h2>
+        }
         return(
             <section id="content">
                 {buyerForm}
+                {empty}
                 <div className="container ">
                     <ReportList data={this.state.previousReports} userType={this.state.userType}/>
                 </div>

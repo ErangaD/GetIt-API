@@ -4,7 +4,7 @@ import {Link} from "react-router";
 var validator = require('validator');
 import axios from 'axios';
 var isEmpty = require('lodash.isempty');
-
+var config = require("../../config.json");
 class Login extends React.Component {
     constructor(props){
         super(props);
@@ -43,7 +43,7 @@ class Login extends React.Component {
     onLogin(e){
         e.preventDefault();
         this.setState({errors:{},isLoading:true});
-        axios.post('http://localhost:3001/api/authentication',
+        axios.post(config.server+'/api/authentication',
             {user:this.state})
             .then((response)=>{
                 const token = response.data.token;

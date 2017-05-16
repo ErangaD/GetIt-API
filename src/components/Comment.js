@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import classNames from 'classnames';
+var config = require("../../config.json")
 class Comment extends React.Component{
     constructor(props){
         super(props);
@@ -19,7 +20,7 @@ class Comment extends React.Component{
     handleSubmit(e){
         e.preventDefault();
         this.setState({isLoading:true,errors:{}});
-        axios.post('http://localhost:3001/api/user/reply',
+        axios.post(config.server+'/api/user/reply',
             {data:this.state,
                 token:localStorage.jwtToken
             })

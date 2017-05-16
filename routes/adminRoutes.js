@@ -12,10 +12,10 @@ router.route('/')
         //One admin user
         /************/
         /*var newUser = new Admin({
-            name: 'Gayan',
-            email: 'erangadulshan10@gmail.com',
+            name: 'Dumindu',
+            email: 'dumindu@gmail.com',
             password: 1994,
-            userName: 'Gayan'
+            userName: 'Dumindu'
         });
         Admin.createUser(newUser,function (err,user) {
             if(err)
